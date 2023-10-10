@@ -18,3 +18,7 @@ deployments
 upgrade_parameters.json
 docker/gethData/
 *.ignore/
+*.log
+info.json
+tmp*
+tx-0x*

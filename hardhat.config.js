@@ -5,6 +5,7 @@ require('solidity-coverage');
 require('@nomiclabs/hardhat-etherscan');
 require('@openzeppelin/hardhat-upgrades');
 require('hardhat-dependency-compiler');
+require('./task/PolygonZkEVM');
 
 const DEFAULT_MNEMONIC = 'test test test test test test test test test test test junk';
 
@@ -139,6 +140,11 @@ module.exports = {
                 initialIndex: 0,
                 count: 20,
             },
+        },
+        polygonL1net: {
+            url: 'http://192.168.50.127:8545',
+            accounts:['0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80'],
+            chainId: 1337
         },
     },
     gasReporter: {
