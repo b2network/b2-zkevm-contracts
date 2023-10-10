@@ -10,7 +10,13 @@ run() {
     # exec >"$FUNCNAME.log" 2>&1
 
     # npx hardhat test test/contracts/polygonZkEVM.test.js
-    # forge flatten --hardhat contracts/PolygonZkEVM.sol >tmp.sol
+
+    # Proof of Efficiency
+    # POE
+    # PolygonZkEVM
+    forge flatten --hardhat contracts/PolygonZkEVM.sol >tmp.sol
+    return
+
     # npx hardhat --help
     # time npx hardhat --network polygonL1net scanEOAAndContract
     # time npx hardhat --network polygonL1net debug
@@ -22,4 +28,11 @@ run() {
     return
 }
 
+verify(){
+    ADDR_POE=0x610178dA211FEF7D417bC0e6FeD39F05609AD788
+    npx hardhat verify \
+        --network polygonL1net \
+        --contract contracts/PolygonZkEVM.sol:PolygonZkEVM \
+        $ADDR_POE
+}
 $@

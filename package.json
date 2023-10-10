@@ -30,6 +30,7 @@
   "homepage": "https://github.com/0xPolygonHermez/contracts-zkEVM#readme",
   "license": "pending",
   "dependencies": {
+    "@nomicfoundation/hardhat-verify": "^1.1.1",
     "chai": "^4.3.7",
     "ethers": "^5.7.2"
   },

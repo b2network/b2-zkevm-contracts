@@ -158,6 +158,7 @@ module.exports = {
             polygonZKEVMMainnet: `${process.env.ETHERSCAN_ZKEVM_API_KEY}`,
             goerli: `${process.env.ETHERSCAN_API_KEY}`,
             mainnet: `${process.env.ETHERSCAN_API_KEY}`,
+            polygonL1net: "abc"
         },
         customChains: [
             {
@@ -174,6 +175,14 @@ module.exports = {
                 urls: {
                     apiURL: 'https://api-testnet-zkevm.polygonscan.com/api',
                     browserURL: 'https://testnet-zkevm.polygonscan.com/',
+                },
+            },
+            {
+                network: 'polygonL1net',
+                chainId: 1337,
+                urls: {
+                    apiURL: 'http://192.168.50.127:4000/api',
+                    browserURL: 'http://192.168.50.127:4000',
                 },
             },
         ],
