@@ -7,6 +7,7 @@ require('@openzeppelin/hardhat-upgrades');
 require('hardhat-dependency-compiler');
 require('./task/PolygonZkEVM');
 require('./task/common');
+require('./task/ERC20PermitMock');
 
 const DEFAULT_MNEMONIC = 'test test test test test test test test test test test junk';
 
