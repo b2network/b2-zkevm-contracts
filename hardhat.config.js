@@ -8,6 +8,7 @@ require('hardhat-dependency-compiler');
 require('./task/PolygonZkEVM');
 require('./task/common');
 require('./task/ERC20PermitMock');
+require('./task/PolygonZkEVMGlobalExitRoot');
 
 const DEFAULT_MNEMONIC = 'test test test test test test test test test test test junk';
 

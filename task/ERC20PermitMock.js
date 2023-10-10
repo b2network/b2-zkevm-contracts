@@ -2,7 +2,7 @@ require('dotenv/config');
 require("chai");
 const { writeFile, readFile } = require("node:fs/promises");
 
-task("ERC20PermitMock:info", "parse log of a tx")
+task("ERC20PermitMock:info", "")
     .addParam("addr", "contract address")
     .setAction(async (args, hre) => {
         const factory = await hre.ethers.getContractFactory("ERC20PermitMock");

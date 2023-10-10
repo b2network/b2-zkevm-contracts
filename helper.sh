@@ -16,7 +16,8 @@ flatten() {
     # forge flatten --hardhat  >tmp.sol
 
     COMMIT=$(git rev-parse --short HEAD)
-    FILE_PATH='contracts/mocks/ERC20PermitMock.sol'
+    # FILE_PATH='contracts/mocks/ERC20PermitMock.sol'
+    FILE_PATH='contracts/PolygonZkEVMGlobalExitRoot.sol'
     OUT_PATH=tmp-$COMMIT-$(basename $FILE_PATH).sol
     forge flatten --hardhat $FILE_PATH >$OUT_PATH
     gh gist create $OUT_PATH --desc "$FILE_PATH"
@@ -60,4 +61,16 @@ probeERC20PermitMock() {
         --addr 0x5FbDB2315678afecb367f032d93F642f64180aa3
 }
 
+probePolygonZkEVMGlobalExitRoot() {
+    # exec >"$FUNCNAME.log" 2>&1
+    time npx hardhat \
+        --network polygonL1net \
+        PolygonZkEVMGlobalExitRoot:info \
+        --addr 0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6
+}
+
+tmp(){
+    exec >"$FUNCNAME.log" 2>&1
+    npm run docker:contracts
+}
 $@
