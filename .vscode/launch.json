@@ -1,0 +1,53 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "debug",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "env": {
+                "PATH": "/root/.nvm/versions/node/v20.8.0/bin:${env:PATH}"
+            },
+            "runtimeExecutable": "/root/.nvm/versions/node/v20.8.0/bin/npx",
+            "args": [
+                "hardhat",
+                "test",
+                "test/contracts/polygonZkEVM.test.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "task",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "env": {
+                "PATH": "/root/.nvm/versions/node/v20.8.0/bin:${env:PATH}"
+            },
+            "runtimeExecutable": "/root/.nvm/versions/node/v20.8.0/bin/npx",
+            "args": [
+                "hardhat",
+                "--network",
+                "polygonL1net",
+                // "findTxOfAAddr",
+                // "debug",
+                "PolygonZkEVM:parseLog",
+                "--addr",
+                "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+                "--txhash",
+                "0x765730c24d1b99ee43c89f691f93c13cf9dfeac68280b2698e9cc4e349f34848"
+                // "--height",
+                // "100"
+                // "PolygonZkEVM",
+                // "info",
+            ]
+        }
+    ]
+}
