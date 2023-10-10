@@ -17,7 +17,8 @@ flatten() {
 
     COMMIT=$(git rev-parse --short HEAD)
     # FILE_PATH='contracts/mocks/ERC20PermitMock.sol'
-    FILE_PATH='contracts/PolygonZkEVMGlobalExitRoot.sol'
+    # FILE_PATH='contracts/PolygonZkEVMGlobalExitRoot.sol'
+    FILE_PATH='contracts/PolygonZkEVMTimelock.sol'
     OUT_PATH=tmp-$COMMIT-$(basename $FILE_PATH).sol
     forge flatten --hardhat $FILE_PATH >$OUT_PATH
     gh gist create $OUT_PATH --desc "$FILE_PATH"
@@ -67,6 +68,14 @@ probePolygonZkEVMGlobalExitRoot() {
         --network polygonL1net \
         PolygonZkEVMGlobalExitRoot:info \
         --addr 0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6
+}
+
+probePolygonZkEVMTimelock() {
+    # exec >"$FUNCNAME.log" 2>&1
+    time npx hardhat \
+        --network polygonL1net \
+        PolygonZkEVMTimelock:info \
+        --addr 0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0 
 }
 
 tmp(){

@@ -9,6 +9,7 @@ require('./task/PolygonZkEVM');
 require('./task/common');
 require('./task/ERC20PermitMock');
 require('./task/PolygonZkEVMGlobalExitRoot');
+require('./task/PolygonZkEVMTimelock');
 
 const DEFAULT_MNEMONIC = 'test test test test test test test test test test test junk';
 
