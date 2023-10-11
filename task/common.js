@@ -88,3 +88,20 @@ task("matchContract", "try to match contract address by call contract function")
         }
         console.log(results);
     });
+
+task("showAccounts", "show current accounts derived from mnemonic")
+    .setAction(async (args, hre) => {
+        const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
+        const signers = await hre.ethers.getSigners();
+        let results = new Map();
+        results.set("chainId", await provider.getNetwork());
+        results.set("ethersVersion", hre.ethers.version);
+        results.set("conn", provider.connection.url);
+        for (const acc of signers) {
+            const addr = acc.address;
+            let tmp = await provider.getBalance(addr);
+            results.set(addr, hre.ethers.utils.formatEther(tmp));
+        }
+
+        console.table(results);
+    });

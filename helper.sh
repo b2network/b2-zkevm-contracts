@@ -54,6 +54,16 @@ verify() {
         $ADDR_POE
 }
 
+probe() {
+    # exec >"$FUNCNAME.log" 2>&1
+    for net in polygonL1net polygonL2net; do
+        time npx hardhat \
+            --network $net \
+            showAccounts
+        # scanEOAAndContract
+    done
+}
+
 probeERC20PermitMock() {
     # exec >"$FUNCNAME.log" 2>&1
     time npx hardhat \
@@ -75,10 +85,10 @@ probePolygonZkEVMTimelock() {
     time npx hardhat \
         --network polygonL1net \
         PolygonZkEVMTimelock:info \
-        --addr 0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0 
+        --addr 0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0
 }
 
-tmp(){
+tmp() {
     exec >"$FUNCNAME.log" 2>&1
     npm run docker:contracts
 }

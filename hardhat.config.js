@@ -147,8 +147,23 @@ module.exports = {
         },
         polygonL1net: {
             url: 'http://192.168.50.127:8545',
-            accounts:['0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80'],
-            chainId: 1337
+            chainId: 1337,
+            accounts: {
+                mnemonic: 'test test test test test test test test test test test junk',
+                path: "m/44'/60'/0'/0",
+                initialIndex: 0,
+                count: 25,
+            },
+        },
+        polygonL2net: {
+            url: 'http://192.168.50.127:8123',
+            chainId: 1001,
+            accounts: {
+                mnemonic: 'test test test test test test test test test test test junk',
+                path: "m/44'/60'/0'/0",
+                initialIndex: 0,
+                count: 25,
+            },
         },
     },
     gasReporter: {
