@@ -13,8 +13,8 @@ import "./lib/EmergencyManager.sol";
 import "./lib/GlobalExitRootLib.sol";
 
 /**
- * PolygonZkEVMBridge that will be deployed on both networks Ethereum and Polygon zkEVM
- * Contract responsible to manage the token interactions with other networks
+ * NOTE PolygonZkEVMBridge that will be deployed on both networks Ethereum and Polygon zkEVM
+ * NOTE Contract responsible to manage the token interactions with other networks
  */
 contract PolygonZkEVMBridge is
     DepositContract,
@@ -72,7 +72,7 @@ contract PolygonZkEVMBridge is
      * @param _networkID networkID
      * @param _globalExitRootManager global exit root manager address
      * @param _polygonZkEVMaddress polygonZkEVM address
-     * @notice The value of `_polygonZkEVMaddress` on the L2 deployment of the contract will be address(0), so
+     * @notice NOTE The value of `_polygonZkEVMaddress` on the L2 deployment of the contract will be address(0), so
      * emergency state is not possible for the L2 deployment of the bridge, intentionally
      */
     function initialize(

@@ -126,7 +126,7 @@ contract PolygonZkEVM is
     uint64 internal constant _HALT_AGGREGATION_TIMEOUT = 1 weeks;
 
     // Maximum batches that can be verified in one call. It depends on our current metrics
-    // This should be a protection against someone that tries to generate huge chunk of invalid batches, and we can't prove otherwise before the pending timeout expires
+    // NOTE This should be a protection against someone that tries to generate huge chunk of invalid batches, and we can't prove otherwise before the pending timeout expires
     uint64 internal constant _MAX_VERIFY_BATCHES = 1000;
 
     // Max batch multiplier per verification
@@ -473,7 +473,7 @@ contract PolygonZkEVM is
     }
 
     /////////////////////////////////////
-    // Sequence/Verify batches functions
+    // NOTE C Sequence/Verify batches functions
     ////////////////////////////////////
 
     /**

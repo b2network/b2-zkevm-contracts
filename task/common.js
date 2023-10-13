@@ -89,19 +89,58 @@ task("matchContract", "try to match contract address by call contract function")
         console.log(results);
     });
 
+async function getBalances(provider, hre, signers) {
+    let results = new Map();
+    for (const acc of signers) {
+        const addr = acc.address;
+        let tmp = await provider.getBalance(addr);
+        results.set(addr, hre.ethers.utils.formatEther(tmp));
+    }
+    return results;
+}
+
 task("showAccounts", "show current accounts derived from mnemonic")
     .setAction(async (args, hre) => {
         const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
         const signers = await hre.ethers.getSigners();
-        let results = new Map();
+        const tmp = await getBalances(provider, hre, signers);
+        let results = new Map(tmp.entries());
         results.set("chainId", await provider.getNetwork());
         results.set("ethersVersion", hre.ethers.version);
         results.set("conn", provider.connection.url);
-        for (const acc of signers) {
-            const addr = acc.address;
-            let tmp = await provider.getBalance(addr);
-            results.set(addr, hre.ethers.utils.formatEther(tmp));
+        console.table(results);
+    });
+
+task("simpleTransfer", "acc1 transfer random eth to acc2")
+    .addOptionalParam("initAccountBalance", "transfer x eth from acc0 to acc1")
+    .setAction(async (args, hre) => {
+        const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
+        const [acc0, acc1, acc2] = await hre.ethers.getSigners();
+        if (args.initAccountBalance) {
+            const tx = await acc0.sendTransaction({
+                to: acc1.address,
+                value: hre.ethers.utils.parseEther(args.initAccountBalance)
+            });
+            await tx.wait();
+            let tmp = await getBalances(provider, hre, [acc0, acc1]);
+            let bal2 = new Map(tmp.entries());
+            bal2.set("tx", tx.hash);
+            console.log(bal2);
+            return;
         }
 
-        console.table(results);
+        let tmp = await getBalances(provider, hre, [acc1, acc2]);
+        let bal1 = new Map(tmp.entries());
+        const num = (Math.random() * 2).toString();
+        bal1.set("value", num);
+        console.log(bal1);
+        const tx = await acc1.sendTransaction({
+            to: acc2.address,
+            value: hre.ethers.utils.parseEther(num)
+        });
+        await tx.wait();
+        tmp = await getBalances(provider, hre, [acc1, acc2]);
+        let bal2 = new Map(tmp.entries());
+        bal2.set("tx", tx.hash);
+        console.log(bal2);
     });

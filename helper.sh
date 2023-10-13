@@ -1,5 +1,8 @@
 set -x
 
+shopt -s expand_aliases
+alias run='time npx hardhat --network '
+
 init() {
     npm i
     npm run test
@@ -18,7 +21,8 @@ flatten() {
     COMMIT=$(git rev-parse --short HEAD)
     # FILE_PATH='contracts/mocks/ERC20PermitMock.sol'
     # FILE_PATH='contracts/PolygonZkEVMGlobalExitRoot.sol'
-    FILE_PATH='contracts/PolygonZkEVMTimelock.sol'
+    # FILE_PATH='contracts/PolygonZkEVMTimelock.sol'
+    FILE_PATH='contracts/PolygonZkEVMBridge.sol'
     OUT_PATH=tmp-$COMMIT-$(basename $FILE_PATH).sol
     forge flatten --hardhat $FILE_PATH >$OUT_PATH
     gh gist create $OUT_PATH --desc "$FILE_PATH"
@@ -56,10 +60,12 @@ verify() {
 
 probe() {
     # exec >"$FUNCNAME.log" 2>&1
-    for net in polygonL1net polygonL2net; do
-        time npx hardhat \
-            --network $net \
-            showAccounts
+    # for net in polygonL1net polygonL2net; do
+    for net in polygonL2net; do
+        run $net simpleTransfer
+        # run $net simpleTransfer --help
+        # run $net simpleTransfer --init-account-balance 90000
+        # run $net showAccounts 
         # scanEOAAndContract
     done
 }
