@@ -32,7 +32,8 @@
   "dependencies": {
     "@nomicfoundation/hardhat-verify": "^1.1.1",
     "chai": "^4.3.7",
-    "ethers": "^5.7.2"
+    "ethers": "^5.7.2",
+    "hardhat-function-signatures": "^0.1.2"
   },
   "devDependencies": {
     "@0xpolygonhermez/zkevm-commonjs": "github:0xPolygonHermez/zkevm-commonjs#v2.0.0-fork.5",

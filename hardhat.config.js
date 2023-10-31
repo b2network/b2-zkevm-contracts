@@ -10,6 +10,7 @@ require('./task/common');
 require('./task/ERC20PermitMock');
 require('./task/PolygonZkEVMGlobalExitRoot');
 require('./task/PolygonZkEVMTimelock');
+require("hardhat-function-signatures");
 
 const DEFAULT_MNEMONIC = 'test test test test test test test test test test test junk';
 
