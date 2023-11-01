@@ -51,6 +51,15 @@
                 // "PolygonZkEVM",
                 // "info",
             ]
-        }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "debug script",
+            "runtimeExecutable": "node",
+            "args": [
+                "docker/scripts/fund-accounts.js"
+            ]
+        },
     ]
 }

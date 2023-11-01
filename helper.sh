@@ -61,11 +61,11 @@ verify() {
 probe() {
     # exec >"$FUNCNAME.log" 2>&1
     # for net in polygonL1net polygonL2net; do
-    for net in polygonL2net; do
+    for net in ethermint; do
         # run $net simpleTransfer
         # run $net simpleTransfer --help
-        run $net simpleTransfer --init-account-balance 90000
-        # run $net showAccounts 
+        # run $net simpleTransfer --init-account-balance 90000
+        run $net showAccounts 
         # scanEOAAndContract
     done
 }
