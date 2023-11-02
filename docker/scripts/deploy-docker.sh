@@ -1,33 +1,47 @@
-# sudo rm -rf docker/gethData/geth_data
-# rm deployment/deploy_ongoing.json
-# DEV_PERIOD=1 docker-compose -f docker/docker-compose.geth.yml up -d geth
-# sleep 5
 set -x
-set -e
+# set -e
 
 NET=b2node
-# npx hardhat \
-#     --network $NET \
-#     init-fund-accounts
 
-cp docker/scripts/deploy_parameters_docker.json deployment/deploy_parameters.json
-cp docker/scripts/genesis_docker.json deployment/genesis.json
+initFundAccount() {
+    npx hardhat \
+        --network $NET \
+        init-fund-accounts
+}
 
-npx hardhat run \
-    --network $NET \
-    deployment/testnet/prepareTestnet.js
+cleanOldConfig() {
+    rm -rf .openzeppelin
+    git checkout deployment/genesis.json
+}
 
-npx hardhat run \
-    --network $NET \
-    deployment/2_deployPolygonZKEVMDeployer.js
+copyConfig() {
+    cp docker/scripts/deploy_parameters_docker.json deployment/deploy_parameters.json
+    cp docker/scripts/genesis_docker.json deployment/genesis.json
+}
 
-npx hardhat run \
-    --network $NET \
-    deployment/3_deployContracts.js
+deployRollupContract() {
+    exec >"$FUNCNAME.log" 2>&1
+    sleep 20
+    # NOTE maybe it's unnecessary
+    # initFundAccount
 
-# mkdir docker/deploymentOutput
-# mv deployment/deploy_output.json docker/deploymentOutput
-# docker-compose -f docker/docker-compose.geth.yml down
-# sudo docker build -t hermeznetwork/geth-zkevm-contracts -f docker/Dockerfile.geth .
-# Let it readable for the multiplatform build coming later!
-# sudo chmod -R go+rxw docker/gethData
+    # NOTE maybe need to clean old config
+    cleanOldConfig
+    copyConfig
+
+    npx hardhat run \
+        --network $NET \
+        deployment/testnet/prepareTestnet.js
+
+    npx hardhat run \
+        --network $NET \
+        deployment/2_deployPolygonZKEVMDeployer.js
+
+    npx hardhat run \
+        --network $NET \
+        deployment/3_deployContracts.js
+
+    # NOTE l1(b2ndoe) status will commit and push to github repo https://github.com/b2network/b2-node-single-client-all-data
+}
+
+$@

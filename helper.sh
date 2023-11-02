@@ -62,18 +62,18 @@ probe() {
     # exec >"$FUNCNAME.log" 2>&1
     # grep -Eor 'pragma solidity (\^|>|)0.[0-9]{1,}.[0-9]{1,}' --exclude-dir node_modules --include='*.sol' | cut -d':' -f2 | sort -u --sort=version
     # grep -Eor 'pragma solidity (\^|>|)0.[0-9]{1,}.[0-9]{1,}' --exclude-dir node_modules --include='*.sol' | cut -d':' -f2 | sort --sort=version
-    npx hardhat compile --verbose
+    # npx hardhat compile --verbose
     # grep -Eor 'pragma solidity (\^|>|)0.[0-9]{1,}.[0-9]{1,}' --exclude-dir node_modules --include='*.sol'
     # grep -Elr 'pragma solidity (\^|>|)0.8.20' --exclude-dir node_modules --include='*.sol' | xargs sed -i 's|0.8.20|0.8.13|g'
-    return
+    # return
     # for net in polygonL1net polygonL2net; do
     for net in b2node; do
         # run $net simpleTransfer
         # run $net simpleTransfer --help
         # run $net simpleTransfer --init-account-balance 90000
         # run $net showAccounts
-        run $net init-fund-accounts
-        npm run docker:contracts
+        # run $net init-fund-accounts
+        npm run deployRollupContract
         # scanEOAAndContract
     done
 }
