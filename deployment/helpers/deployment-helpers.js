@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop, no-use-before-define, no-lonely-if, import/no-dynamic-require */
 /* eslint-disable no-console, no-inner-declarations, no-undef, import/no-unresolved */
 const { expect } = require('chai');
-const { ethers } = require('hardhat');
+const { ethers, network } = require('hardhat');
 
 const gasPriceKeylessDeployment = '100'; // 100 gweis
 
@@ -18,6 +18,7 @@ async function deployPolygonZkEVMDeployer(deployerAddress, signer) {
     const tx = {
         to,
         nonce: 0,
+        chainId: network.config.chainId,
         value: 0,
         gasLimit: gasLimit.toHexString(),
         gasPrice: gasPrice.toHexString(),

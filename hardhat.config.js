@@ -169,13 +169,14 @@ module.exports = {
         },
         b2node: {
             url: "http://127.0.0.1:8555",
+            chainId: 102,
             accounts: {
-              mnemonic: "test test test test test test test test test test test junk",
-              path: "m/44'/60'/0'/0",
-              initialIndex: 0,
-              count: 20,
+                mnemonic: "test test test test test test test test test test test junk",
+                path: "m/44'/60'/0'/0",
+                initialIndex: 0,
+                count: 20,
             },
-          },
+        },
     },
     gasReporter: {
         enabled: !!process.env.REPORT_GAS,

@@ -25,18 +25,15 @@
             "type": "node",
             "request": "launch",
             "name": "task",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "env": {
-                "PATH": "/root/.nvm/versions/node/v20.8.0/bin:${env:PATH}"
-            },
-            "runtimeExecutable": "/root/.nvm/versions/node/v20.8.0/bin/npx",
+            "runtimeExecutable": "npx",
             "args": [
                 "hardhat",
+                "run",
                 "--network",
-                "polygonL1net",
-                "simpleTransfer",
+                "b2node",
+                "deployment/2_deployPolygonZKEVMDeployer.js",
+                // "polygonL1net",
+                // "simpleTransfer",
                 // "showAccounts",
                 // "findTxOfAAddr",
                 // "debug",
@@ -45,7 +42,6 @@
                 // "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
                 // "--txhash",
                 // "0x765730c24d1b99ee43c89f691f93c13cf9dfeac68280b2698e9cc4e349f34848"
-
                 // "--height",
                 // "100"
                 // "PolygonZkEVM",
