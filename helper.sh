@@ -65,7 +65,8 @@ probe() {
         # run $net simpleTransfer
         # run $net simpleTransfer --help
         # run $net simpleTransfer --init-account-balance 90000
-        run $net showAccounts 
+        # run $net showAccounts 
+        run $net init-fund-accounts
         # scanEOAAndContract
     done
 }

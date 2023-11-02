@@ -11,6 +11,7 @@ require('./task/ERC20PermitMock');
 require('./task/PolygonZkEVMGlobalExitRoot');
 require('./task/PolygonZkEVMTimelock');
 require("hardhat-function-signatures");
+require('./docker/scripts/fund-accounts');
 
 const DEFAULT_MNEMONIC = 'test test test test test test test test test test test junk';
 

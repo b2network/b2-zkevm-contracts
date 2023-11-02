@@ -1,35 +1,27 @@
-/* eslint-disable no-await-in-loop */
-
+require('dotenv/config');
 const ethers = require('ethers');
-require('dotenv').config();
-
-const DEFAULT_MNEMONIC = 'test test test test test test test test test test test junk';
+const { getBalances } = require("../../task/lib")
 const DEFAULT_NUM_ACCOUNTS = 20;
 
-async function main() {
-    const MNEMONIC = process.env.MNEMONIC || DEFAULT_MNEMONIC;
-    const currentProvider = new ethers.providers.JsonRpcProvider('http://localhost:8545');
-    const signerNode = await currentProvider.getSigner();
-    const numAccountsToFund = process.env.NUM_ACCOUNTS || DEFAULT_NUM_ACCOUNTS;
+task("init-fund-accounts", "acc0 transfer 50eth to other accounts")
+    .setAction(async (args, hre) => {
+        const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
+        const signers = await hre.ethers.getSigners();
+        let tmp = await getBalances(provider, hre, signers);
+        let bal1 = new Map(tmp.entries());
+        const num = (50).toString();
+        bal1.set("value", num);
+        console.log(bal1);
 
-    for (let i = 0; i < numAccountsToFund; i++) {
-        const pathWallet = `m/44'/60'/0'/0/${i}`;
-        const accountWallet = ethers.Wallet.fromMnemonic(MNEMONIC, pathWallet);
-        const params = [{
-            from: await signerNode.getAddress(),
-            to: accountWallet.address,
-            value: '0x3635C9ADC5DEA00000',
-        }];
-        const tx = await currentProvider.send('eth_sendTransaction', params);
-        if (i === numAccountsToFund - 1) {
-            await currentProvider.waitForTransaction(tx);
+        const numAccountsToFund = process.env.NUM_ACCOUNTS || DEFAULT_NUM_ACCOUNTS;
+        for (let i = 1; i < numAccountsToFund; i++) {
+            const tx = await signers[0].sendTransaction({
+                to: signers[i].address,
+                value: hre.ethers.utils.parseEther(num)
+            });
+            await tx.wait();
         }
-    }
-}
-
-main()
-    .then(() => process.exit(0))
-    .catch((error) => {
-        console.error(error);
-        process.exit(1);
+        tmp = await getBalances(provider, hre, signers);
+        let bal2 = new Map(tmp.entries());
+        console.log(bal2);
     });

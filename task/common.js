@@ -1,5 +1,6 @@
 require('dotenv/config');
 require("chai");
+const { getBalances } = require("./lib")
 const { writeFile, readFile } = require("node:fs/promises");
 
 task("scanEOAAndContract", "scan tx from genesis to now, and get all EOA and Contract address、balance")
@@ -88,16 +89,6 @@ task("matchContract", "try to match contract address by call contract function")
         }
         console.log(results);
     });
-
-async function getBalances(provider, hre, signers) {
-    let results = new Map();
-    for (const acc of signers) {
-        const addr = acc.address;
-        let tmp = await provider.getBalance(addr);
-        results.set(addr, hre.ethers.utils.formatEther(tmp));
-    }
-    return results;
-}
 
 task("showAccounts", "show current accounts derived from mnemonic")
     .setAction(async (args, hre) => {
