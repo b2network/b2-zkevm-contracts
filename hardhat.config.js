@@ -148,7 +148,7 @@ module.exports = {
             },
         },
         polygonL1net: {
-            url: 'http://192.168.50.127:8545',
+            url: 'http://192.168.50.51:8545',
             chainId: 1337,
             accounts: {
                 mnemonic: 'test test test test test test test test test test test junk',
@@ -158,7 +158,7 @@ module.exports = {
             },
         },
         polygonL2net: {
-            url: 'http://192.168.50.127:8123',
+            url: 'http://192.168.50.51:8123',
             chainId: 1001,
             accounts: {
                 mnemonic: 'test test test test test test test test test test test junk',
@@ -168,7 +168,8 @@ module.exports = {
             },
         },
         b2node: {
-            url: "http://127.0.0.1:8555",
+            // url: "http://127.0.0.1:8545",
+            url: "http://192.168.50.127:8545",
             chainId: 102,
             accounts: {
                 mnemonic: "test test test test test test test test test test test junk",

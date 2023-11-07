@@ -67,13 +67,22 @@ probe() {
     # grep -Elr 'pragma solidity (\^|>|)0.8.20' --exclude-dir node_modules --include='*.sol' | xargs sed -i 's|0.8.20|0.8.13|g'
     # return
     # for net in polygonL1net polygonL2net; do
+    # for net in polygonL1net; do
+    # for net in polygonL2net; do
     for net in b2node; do
         # run $net simpleTransfer
         # run $net simpleTransfer --help
         # run $net simpleTransfer --init-account-balance 90000
         # run $net showAccounts
+
+        # b2nodeADDR
+        # codeAddrs='0x67d269191c92Caf3cD7723F116c85e6E9bf55933,0x3Aa5ebB10DC797CAC828524e59A333d0A371443c,0x09635F643e140090A9A8Dcd712eD6285858ceBef'
+        # polygonAddr
+        # codeAddrs='0x610178dA211FEF7D417bC0e6FeD39F05609AD788,0x5FbDB2315678afecb367f032d93F642f64180aa3,0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6'
+        # run $net showContractCode --addrs $codeAddrs
+
         # run $net init-fund-accounts
-        npm run deployRollupContract
+        # npm run deployRollupContract
         # scanEOAAndContract
     done
 }

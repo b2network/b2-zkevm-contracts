@@ -135,3 +135,16 @@ task("simpleTransfer", "acc1 transfer random eth to acc2")
         bal2.set("tx", tx.hash);
         console.log(bal2);
     });
+
+task("showContractCode", "")
+    .addParam("addrs")
+    .setAction(async (args, hre) => {
+        const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
+        const addrs = args.addrs.split(",");
+        let results = new Map();
+        for (const addr of addrs){
+            let code = await provider.getCode(addr);
+            results.set(addr, code);
+        }
+        console.log(results);
+    });

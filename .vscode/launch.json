@@ -24,7 +24,34 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "task",
+            "name": "hardhat task",
+            "runtimeExecutable": "npx",
+            "args": [
+                "hardhat",
+                "--network",
+                // "polygonL2net",
+                "b2node",
+                // "polygonL1net",
+                "showContractCode",
+                // "simpleTransfer",
+                // "showAccounts",
+                // "findTxOfAAddr",
+                // "debug",
+                // "PolygonZkEVM:parseLog",
+                "--addrs",
+                "0x67d269191c92Caf3cD7723F116c85e6E9bf55933,0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+                // "--txhash",
+                // "0x765730c24d1b99ee43c89f691f93c13cf9dfeac68280b2698e9cc4e349f34848"
+                // "--height",
+                // "100"
+                // "PolygonZkEVM",
+                // "info",
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "hardhat script",
             "runtimeExecutable": "npx",
             "args": [
                 "hardhat",
@@ -33,20 +60,6 @@
                 "b2node",
                 "deployment/3_deployContracts.js",
                 // "deployment/2_deployPolygonZKEVMDeployer.js",
-                // "polygonL1net",
-                // "simpleTransfer",
-                // "showAccounts",
-                // "findTxOfAAddr",
-                // "debug",
-                // "PolygonZkEVM:parseLog",
-                // "--addr",
-                // "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
-                // "--txhash",
-                // "0x765730c24d1b99ee43c89f691f93c13cf9dfeac68280b2698e9cc4e349f34848"
-                // "--height",
-                // "100"
-                // "PolygonZkEVM",
-                // "info",
             ]
         },
         {
