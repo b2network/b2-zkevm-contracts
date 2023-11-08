@@ -142,9 +142,23 @@ task("showContractCode", "")
         const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
         const addrs = args.addrs.split(",");
         let results = new Map();
-        for (const addr of addrs){
+        for (const addr of addrs) {
             let code = await provider.getCode(addr);
             results.set(addr, code);
+        }
+        console.log(results);
+    });
+
+task("getHashByHeight", "")
+    .addParam("heights")
+    .setAction(async (args, hre) => {
+        const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
+        const heights = args.heights.split(",");
+        let results = new Map();
+        for (const item of heights) {
+            let tmp = await provider.getBlockNumber();
+            let res = await provider.getBlock(Number(item));
+            results.set(item, res);
         }
         console.log(results);
     });

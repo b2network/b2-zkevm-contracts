@@ -59,6 +59,12 @@ verify() {
 }
 
 probe() {
+    # deploy:testnet:ZkEVM:localhost
+    # rm -f .openzeppelin/unknown-31337.json 
+    # node deployment/1_createGenesis.js 
+    # npx hardhat run deployment/2_deployPolygonZKEVMDeployer.js --network localhost 
+    # npx hardhat run deployment/3_deployContracts.js --network localhost
+
     # exec >"$FUNCNAME.log" 2>&1
     # grep -Eor 'pragma solidity (\^|>|)0.[0-9]{1,}.[0-9]{1,}' --exclude-dir node_modules --include='*.sol' | cut -d':' -f2 | sort -u --sort=version
     # grep -Eor 'pragma solidity (\^|>|)0.[0-9]{1,}.[0-9]{1,}' --exclude-dir node_modules --include='*.sol' | cut -d':' -f2 | sort --sort=version
@@ -69,11 +75,13 @@ probe() {
     # for net in polygonL1net polygonL2net; do
     # for net in polygonL1net; do
     # for net in polygonL2net; do
-    for net in b2node; do
+    # for net in b2node; do
+    # for net in b2rollup; do
+    for net in b2node b2rollup; do
         # run $net simpleTransfer
         # run $net simpleTransfer --help
-        # run $net simpleTransfer --init-account-balance 90000
-        # run $net showAccounts
+        # run $net simpleTransfer --init-account-balance 9000
+        run $net showAccounts
 
         # b2nodeADDR
         # codeAddrs='0x67d269191c92Caf3cD7723F116c85e6E9bf55933,0x3Aa5ebB10DC797CAC828524e59A333d0A371443c,0x09635F643e140090A9A8Dcd712eD6285858ceBef'

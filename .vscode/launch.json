@@ -30,16 +30,21 @@
                 "hardhat",
                 "--network",
                 // "polygonL2net",
-                "b2node",
-                // "polygonL1net",
-                "showContractCode",
+                // "b2node",
+                "polygonL1net",
+                "getHashByHeight",
+                "--heights",
+                "134,135"
                 // "simpleTransfer",
                 // "showAccounts",
                 // "findTxOfAAddr",
                 // "debug",
                 // "PolygonZkEVM:parseLog",
-                "--addrs",
-                "0x67d269191c92Caf3cD7723F116c85e6E9bf55933,0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+
+                // "showContractCode",
+                // "--addrs",
+                // "0x67d269191c92Caf3cD7723F116c85e6E9bf55933,0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+
                 // "--txhash",
                 // "0x765730c24d1b99ee43c89f691f93c13cf9dfeac68280b2698e9cc4e349f34848"
                 // "--height",

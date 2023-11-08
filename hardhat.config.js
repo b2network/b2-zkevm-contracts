@@ -175,9 +175,20 @@ module.exports = {
                 mnemonic: "test test test test test test test test test test test junk",
                 path: "m/44'/60'/0'/0",
                 initialIndex: 0,
-                count: 20,
+                count: 25,
             },
         },
+        b2rollup: {
+            url: 'http://192.168.50.127:8123',
+            chainId: 102,
+            accounts: {
+                mnemonic: 'test test test test test test test test test test test junk',
+                path: "m/44'/60'/0'/0",
+                initialIndex: 0,
+                count: 25,
+            },
+        },
+
     },
     gasReporter: {
         enabled: !!process.env.REPORT_GAS,
