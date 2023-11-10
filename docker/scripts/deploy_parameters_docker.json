@@ -4,7 +4,7 @@
     "networkName": "zkevm",
     "version":"0.0.1",
     "trustedSequencer":"0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-    "chainID": 102,
+    "chainID": 1002,
     "trustedAggregator":"0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
     "trustedAggregatorTimeout": 604799,
     "pendingStateTimeout": 604799,

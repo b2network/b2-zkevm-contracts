@@ -2,7 +2,8 @@ set -x
 
 shopt -s expand_aliases
 alias run='time npx hardhat --network '
-
+DATE=$(date +%Y%m%d-%H%M%S)
+ 
 init() {
     npm i
     npm run test
@@ -58,6 +59,25 @@ verify() {
         $ADDR_POE
 }
 
+initRollup(){
+    exec >"$FUNCNAME-$DATE.log" 2>&1
+    set -e
+    # repo: git@github.com:b2network/b2-node-single-client-all-data.git
+    L1NETWORK_DOCKER_COMPOSE_DIR=/ssd/code/work/b2network/single-client-datadir
+    cd $L1NETWORK_DOCKER_COMPOSE_DIR
+    docker-compose down
+    bash helper.sh restore
+    docker-compose up -d
+    sleep 5s
+    docker-compose ps
+    cd -
+    npm run deployRollupContract
+    cd $L1NETWORK_DOCKER_COMPOSE_DIR
+    docker-compose down
+    git add .
+    cd -
+}
+
 probe() {
     # deploy:testnet:ZkEVM:localhost
     # rm -f .openzeppelin/unknown-31337.json 
@@ -76,8 +96,8 @@ probe() {
     # for net in polygonL1net; do
     # for net in polygonL2net; do
     # for net in b2node; do
-    # for net in b2rollup; do
-    for net in b2node b2rollup; do
+    for net in b2rollup; do
+    # for net in b2node b2rollup; do
         # run $net simpleTransfer
         # run $net simpleTransfer --help
         # run $net simpleTransfer --init-account-balance 9000

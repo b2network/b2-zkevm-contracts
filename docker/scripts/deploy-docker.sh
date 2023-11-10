@@ -20,7 +20,7 @@ copyConfig() {
 }
 
 deployRollupContract() {
-    exec >"$FUNCNAME.log" 2>&1
+    # exec >"$FUNCNAME.log" 2>&1
     sleep 20
     # NOTE maybe it's unnecessary
     # initFundAccount

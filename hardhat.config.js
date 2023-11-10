@@ -168,8 +168,8 @@ module.exports = {
             },
         },
         b2node: {
-            // url: "http://127.0.0.1:8545",
-            url: "http://192.168.50.127:8545",
+            url: "http://127.0.0.1:8555",
+            // url: "http://192.168.50.127:8545",
             chainId: 102,
             accounts: {
                 mnemonic: "test test test test test test test test test test test junk",
@@ -180,7 +180,7 @@ module.exports = {
         },
         b2rollup: {
             url: 'http://192.168.50.127:8123',
-            chainId: 102,
+            chainId: 1002,
             accounts: {
                 mnemonic: 'test test test test test test test test test test test junk',
                 path: "m/44'/60'/0'/0",
