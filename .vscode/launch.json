@@ -1,0 +1,85 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "debug",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "env": {
+                "PATH": "/root/.nvm/versions/node/v20.8.0/bin:${env:PATH}"
+            },
+            "runtimeExecutable": "/root/.nvm/versions/node/v20.8.0/bin/npx",
+            "args": [
+                "hardhat",
+                "test",
+                "test/contracts/polygonZkEVM.test.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "hardhat task",
+            "runtimeExecutable": "npx",
+            "args": [
+                "hardhat",
+                "--network",
+                "b2rollup",
+                // "polygonL2net",
+                // "b2node",
+                // "polygonL1net",
+                // "getHashByHeight",
+                // "--heights",
+                // "134,135"
+
+                // "transfer",
+                // "--addr",
+                // "0x61097BA76cD906d2ba4FD106E757f7Eb455fc295",
+                // "--value",
+                // "1"
+
+                "showAccounts",
+                // "findTxOfAAddr",
+                // "debug",
+                // "PolygonZkEVM:parseLog",
+                // "showContractCode",
+                // "--addrs",
+                // "0x67d269191c92Caf3cD7723F116c85e6E9bf55933,0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+                // "--txhash",
+                // "0x765730c24d1b99ee43c89f691f93c13cf9dfeac68280b2698e9cc4e349f34848"
+                // "--height",
+                // "100"
+                // "PolygonZkEVM",
+                // "info",
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "hardhat script",
+            "runtimeExecutable": "npx",
+            "args": [
+                "hardhat",
+                "run",
+                "--network",
+                "b2node",
+                "deployment/3_deployContracts.js",
+                // "deployment/2_deployPolygonZKEVMDeployer.js",
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "debug script",
+            "runtimeExecutable": "node",
+            "args": [
+                "docker/scripts/fund-accounts.js"
+            ]
+        },
+    ]
+}
