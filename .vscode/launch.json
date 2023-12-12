@@ -29,7 +29,8 @@
             "args": [
                 "hardhat",
                 "--network",
-                "b2rollup",
+                "b2LocalRollup",
+                // "b2DevNetRollup",
                 // "polygonL2net",
                 // "b2node",
                 // "polygonL1net",
@@ -37,13 +38,32 @@
                 // "--heights",
                 // "134,135"
 
+                "TEST:generateOfflineTx",
+                "--round",
+                "2",
+                "--value",
+                "0.002",
+                "--start-index",
+                "100",
+                "--end-index",
+                "200",
+
+
+                // "TEST:meetBlanceRequre",
+                // "--min-balance",
+                // "0.2",
+                // "--start-index",
+                // "100",
+                // "--end-index",
+                // "200",
+
                 // "transfer",
                 // "--addr",
                 // "0x61097BA76cD906d2ba4FD106E757f7Eb455fc295",
                 // "--value",
                 // "1"
 
-                "showAccounts",
+                // "showAccounts",
                 // "findTxOfAAddr",
                 // "debug",
                 // "PolygonZkEVM:parseLog",

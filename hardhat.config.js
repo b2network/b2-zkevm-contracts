@@ -178,9 +178,18 @@ module.exports = {
                 count: 25,
             },
         },
-        b2rollup: {
+        b2LocalRollup: {
+            url: 'http://192.168.50.127:8123',
+            chainId: 1002,
+            accounts: {
+                mnemonic: 'test test test test test test test test test test test junk',
+                path: "m/44'/60'/0'/0",
+                initialIndex: 0,
+                count: 8,
+            },
+        },
+        b2DevNetRollup: {
             url: 'http://43.135.203.73:8123',
-            // url: 'http://192.168.50.127:8123',
             chainId: 1002,
             accounts: {
                 mnemonic: 'test test test test test test test test test test test junk',

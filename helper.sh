@@ -102,16 +102,16 @@ probe() {
 
     grep -Er 'PolygonZkEVMGlobalExitRootL2' \
         --exclude-dir node_modules \
-        --exclude-dir artifacts 
-    return    
+        --exclude-dir artifacts
+    return
 
     grep -Er 'fork' \
         --exclude-dir node_modules \
         --exclude-dir artifacts \
         --include='*.js'
 
-        # --include='*.sol'
-        # --include='*.json'
+    # --include='*.sol'
+    # --include='*.json'
     return
 }
 
@@ -120,15 +120,30 @@ debug() {
     # for net in polygonL1net; do
     # for net in polygonL2net; do
     # for net in b2node; do
-    for net in b2rollup; do
-    # for net in gethDev; do
+    # for net in b2DevNetRollup; do
+    for net in b2LocalRollup; do
+        # for net in gethDev; do
         # for net in b2node b2rollup; do
         # for net in b2PublicTestRollup; do
         # for net in b2PublicTestNode b2PublicTestRollup; do
-        run $net transfer --addr 0x61097BA76cD906d2ba4FD106E757f7Eb455fc295 --value 1000
+        # run $net transfer --addr 0x61097BA76cD906d2ba4FD106E757f7Eb455fc295 --value 1000
         # run $net transfer --help
         # run $net transfer --init-account-balance 90
         # run $net showAccounts
+        # run $net getHashByHeight --heights 1
+
+        TEST_FLAG="--start-index 100 --end-index 1000"
+
+        run $net TEST:prepare \
+            --min-sender-balance 100 \
+            --min-balance 0.2 \
+            $TEST_FLAG
+
+        run $net TEST:generateOfflineTx \
+            --value 0.002 \
+            --round 2 $TEST_FLAG
+
+        # run $net TEST:debug
 
         # b2nodeADDR
         # codeAddrs='0x67d269191c92Caf3cD7723F116c85e6E9bf55933,0x3Aa5ebB10DC797CAC828524e59A333d0A371443c,0x09635F643e140090A9A8Dcd712eD6285858ceBef'
