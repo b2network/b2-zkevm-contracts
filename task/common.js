@@ -1,7 +1,10 @@
 require('dotenv/config');
 require("chai");
+const { task } = require('hardhat/config');
 const { getBalances } = require("./lib")
 const { writeFile, readFile } = require("node:fs/promises");
+const fs = require("fs");
+const path = require("path");
 
 task("scanEOAAndContract", "scan tx from genesis to now, and get all EOA and Contract address、balance")
     .setAction(async (args, hre) => {
@@ -94,7 +97,7 @@ task("showAccounts", "show current accounts derived from mnemonic")
     .setAction(async (args, hre) => {
         const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
         const signers = await hre.ethers.getSigners();
-        const tmp = await getBalances(provider, hre, signers);
+        const tmp = await getBalances(provider, hre, signers.map((s) => s.address));
         let results = new Map(tmp.entries());
         results.set("chainId", await provider.getNetwork());
         results.set("ethersVersion", hre.ethers.version);
@@ -102,38 +105,24 @@ task("showAccounts", "show current accounts derived from mnemonic")
         console.table(results);
     });
 
-task("simpleTransfer", "acc1 transfer random eth to acc2")
-    .addOptionalParam("initAccountBalance", "transfer x eth from acc0 to acc1")
+task("transfer")
+    .addParam("addr")
+    .addParam("value")
     .setAction(async (args, hre) => {
         const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
-        const [acc0, acc1, acc2] = await hre.ethers.getSigners();
-        if (args.initAccountBalance) {
-            const tx = await acc0.sendTransaction({
-                to: acc1.address,
-                value: hre.ethers.utils.parseEther(args.initAccountBalance)
-            });
-            await tx.wait();
-            let tmp = await getBalances(provider, hre, [acc0, acc1]);
-            let bal2 = new Map(tmp.entries());
-            bal2.set("tx", tx.hash);
-            console.log(bal2);
-            return;
-        }
-
-        let tmp = await getBalances(provider, hre, [acc1, acc2]);
-        let bal1 = new Map(tmp.entries());
-        const num = (Math.random() * 2).toString();
-        bal1.set("value", num);
-        console.log(bal1);
-        const tx = await acc1.sendTransaction({
-            to: acc2.address,
-            value: hre.ethers.utils.parseEther(num)
+        const [signer] = await hre.ethers.getSigners();
+        const toAddr = args.addr;
+        const tx = await signer.sendTransaction({
+            to: toAddr,
+            value: hre.ethers.utils.parseEther(args.value)
         });
         await tx.wait();
-        tmp = await getBalances(provider, hre, [acc1, acc2]);
+
+        let tmp = await getBalances(provider, hre, [signer.address, toAddr]);
         let bal2 = new Map(tmp.entries());
         bal2.set("tx", tx.hash);
         console.log(bal2);
+        return;
     });
 
 task("showContractCode", "")
@@ -162,3 +151,118 @@ task("getHashByHeight", "")
         }
         console.log(results);
     });
+
+async function getTestWallets(hre, mnemonic, from, end) {
+    let wallets = [];
+    for (let i = from; i < end; i++) {
+        wallets.push(hre.ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${i}`));
+    }
+    return wallets;
+}
+
+
+task("TEST:generateOfflineTx")
+    .addParam("startIndex")
+    .addParam("endIndex")
+    .addParam("round")
+    .addParam("value")
+    .setAction(async (args, hre) => {
+        const mnemonic = hre.network.config.accounts.mnemonic;
+        const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
+        const wallets = await getTestWallets(hre, mnemonic, args.startIndex, args.endIndex);
+        let addrNonce = new Map;
+        for (const w of wallets) {
+            const nonce = await provider.getTransactionCount(w.address);
+            addrNonce.set(w.address, nonce);
+        }
+
+        let results = new Array();
+
+        for (let round = 0; round < args.round; round++) {
+            for (const w of wallets) {
+                const nonce = addrNonce.get(w.address);
+                const params = {
+                    to: w.address,
+                    value: hre.ethers.utils.parseEther(args.value),
+                    nonce: nonce,
+                    gasLimit: 21000,
+                    gasPrice: hre.ethers.utils.parseUnits("1", "gwei")
+                };
+                const tx = await w.signTransaction(params);
+                addrNonce.set(w.address, nonce + 1);
+                results.push(tx);
+            };
+        }
+        fs.writeFileSync(path.join(".", "txs.txt"), results.join("\n"), "utf-8");
+        console.log("save to txs.txt")
+    });
+
+task("TEST:prepare")
+    .addParam("startIndex")
+    .addParam("endIndex")
+    .addParam("minSenderBalance")
+    .addParam("minBalance")
+    .setAction(async (args, hre) => {
+        const mnemonic = hre.network.config.accounts.mnemonic;
+        const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
+        const start = parseInt(args.startIndex);
+        const end = parseInt(args.endIndex);
+
+        const signers = await hre.ethers.getSigners();
+        const addrs = signers.map((w) => w.address);
+        const bals = await getBalances(provider, hre, addrs);
+        signers.pop();
+        const minSenderBal = parseFloat(args.minSenderBalance);
+        for (const item of bals) {
+            const bal = parseFloat(item[1]);
+            if (bal < minSenderBal) {
+                await hre.run("transfer", {
+                    addr: item[0],
+                    value: args.minSenderBalance
+                });
+            }
+
+        };
+
+        const wallets = await getTestWallets(hre, mnemonic, start, end);
+        const testAddrs = wallets.map((w) => w.address);
+        const testAddrsBals = Array.from(await getBalances(provider, hre, testAddrs));
+        const minBal = parseFloat(args.minBalance);
+
+        for (let index = 0; index < testAddrsBals.length;) {
+            let balNotEnoughAddr = [];
+            let balEnoughAddr = [];
+            for (let i = 0; index < testAddrsBals.length && i < signers.length;) {
+                const tmp = testAddrsBals[index];
+                index++;
+                const bal = parseFloat(tmp[1]);
+                if (bal >= minBal) {
+                    balEnoughAddr.push(tmp[0]);
+                    continue;
+                }
+                balNotEnoughAddr.push(tmp);
+                i++;
+            }
+            let transfTasks = [];
+            for (let i = 0; i < balNotEnoughAddr.length; i++) {
+                transfTasks.push(transfer(signers[i], balNotEnoughAddr[i][0], args.minBalance));
+            }
+            const txs = await Promise.all(transfTasks);
+            console.log("balEnoughAddr", balEnoughAddr);
+            console.log("balNotEnoughAddr", balNotEnoughAddr);
+            console.log("txs", txs);
+        }
+    });
+
+async function transfer(from, to, value) {
+    const tx = await from.sendTransaction({
+        to: to,
+        value: hre.ethers.utils.parseEther(value),
+        // nonce: nonce,
+        // gasLimit: 21000,
+        // gasPrice: hre.ethers.utils.parseUnits("1", "gwei")
+
+    });
+    await tx.wait();
+    return tx.hash;
+}

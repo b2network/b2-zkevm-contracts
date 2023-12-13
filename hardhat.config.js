@@ -178,8 +178,18 @@ module.exports = {
                 count: 25,
             },
         },
-        b2rollup: {
+        b2LocalRollup: {
             url: 'http://192.168.50.127:8123',
+            chainId: 1002,
+            accounts: {
+                mnemonic: 'test test test test test test test test test test test junk',
+                path: "m/44'/60'/0'/0",
+                initialIndex: 0,
+                count: 8,
+            },
+        },
+        b2DevNetRollup: {
+            url: 'http://43.135.203.73:8123',
             chainId: 1002,
             accounts: {
                 mnemonic: 'test test test test test test test test test test test junk',
@@ -188,7 +198,36 @@ module.exports = {
                 count: 25,
             },
         },
-
+        gethDev: {
+            url: "http://127.0.0.1:8545",
+            chainId: 1337,
+            accounts: {
+                mnemonic: "test test test test test test test test test test test junk",
+                path: "m/44'/60'/0'/0",
+                initialIndex: 0,
+                count: 25,
+            },
+        },
+        b2PublicTestNode: {
+            url: "http://43.159.55.62:30115",
+            chainId: 102,
+            accounts: {
+                mnemonic: "test test test test test test test test test test test junk",
+                path: "m/44'/60'/0'/0",
+                initialIndex: 0,
+                count: 25,
+            },
+        },
+        b2PublicTestRollup: {
+            url: 'http://43.159.55.62:31481',
+            chainId: 1002,
+            accounts: {
+                mnemonic: 'test test test test test test test test test test test junk',
+                path: "m/44'/60'/0'/0",
+                initialIndex: 0,
+                count: 25,
+            },
+        },
     },
     gasReporter: {
         enabled: !!process.env.REPORT_GAS,
