@@ -40,13 +40,13 @@
 
                 "TEST:generateOfflineTx",
                 "--round",
-                "2",
+                "100",
                 "--value",
                 "0.002",
                 "--start-index",
-                "100",
+                "700",
                 "--end-index",
-                "200",
+                "1000",
 
 
                 // "TEST:meetBlanceRequre",
