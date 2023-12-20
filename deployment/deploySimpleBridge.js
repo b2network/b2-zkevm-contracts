@@ -3,10 +3,10 @@ const {ethers, upgrades} = require("hardhat");
 async function main() {
 
     // SimpleBridge
-    const SimpleBridge = await ethers.getContractFactory("SimpleBridge");
+    const SimpleBridge = await ethers.getContractFactory("SimpleBridgeV2");
     const instance = await upgrades.deployProxy(SimpleBridge);
     await instance.waitForDeployment();
-    console.log("SimpleBridge V1:", instance.target);
+    console.log("SimpleBridge V2:", instance.target);
 
 }
 

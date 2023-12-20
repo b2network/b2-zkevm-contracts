@@ -39,3 +39,30 @@ contract SimpleBridge is ISimpleBridge, Initializable, AccessControlUpgradeable 
     }
 
 }
+
+contract SimpleBridgeV2 is SimpleBridge  {
+
+   mapping (bytes32 => bool) deposit_uuids;
+   mapping (bytes32 => bool) withdraw_uuids;
+
+   function version() external pure returns (uint256) {
+      return 2;
+   }
+
+    function depositV2(bytes32 deposit_uuid, address b2_to_address, uint256 btc_amount) external onlyRole(ADMIN_ROLE) {
+        require(!deposit_uuids[deposit_uuid], "non-repeatable processing");
+        deposit_uuids[deposit_uuid] = true;
+        uint256 b2_amount = btc_amount * 10000000000;
+        payable(b2_to_address).transfer(b2_amount);
+        emit DepositEvent(msg.sender, b2_to_address, b2_amount);
+    }
+
+    function withdrawV2(bytes32 withdraw_uuid, string calldata btc_address) external payable {
+        require(!withdraw_uuids[withdraw_uuid], "non-repeatable processing");
+        withdraw_uuids[withdraw_uuid] = true;
+        uint256 b2_amount = msg.value;
+        uint256 btc_amount = b2_amount/ 10000000000;
+        emit WithdrawEvent(msg.sender, btc_address, btc_amount);
+    }
+
+}

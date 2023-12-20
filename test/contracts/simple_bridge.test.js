@@ -6,7 +6,7 @@ describe('SimpleBridge Contract', () => {
     it('Testing the withdraw feature of the SimpleBridge contract. ', async () => {
         // deploy
         const [deployer] = await ethers.getSigners();
-        const SimpleBridge = await ethers.getContractFactory("SimpleBridge");
+        const SimpleBridge = await ethers.getContractFactory("SimpleBridgeV2");
         const simpleBridge = await upgrades.deployProxy(SimpleBridge);
         await simpleBridge.deployed();
 
@@ -17,13 +17,18 @@ describe('SimpleBridge Contract', () => {
         await expect(simpleBridge.withdraw(btc_address, {value: amount * decimals}))
             .to.emit(simpleBridge, 'WithdrawEvent')
             .withArgs(deployer.address, btc_address, amount);
+
+        let uuid = "0x0000000000000000000000000000000000000000000000000000000000000001"
+        await expect(simpleBridge.withdrawV2(uuid, btc_address, {value: amount * decimals}))
+            .to.emit(simpleBridge, 'WithdrawEvent')
+            .withArgs(deployer.address, btc_address, amount);
     });
 
 
     it('Testing the deposit feature of the SimpleBridge contract. ', async () => {
         // deploy
         const [deployer, depositAcc, depositToAcc] = await ethers.getSigners();
-        const SimpleBridge = await ethers.getContractFactory("SimpleBridge");
+        const SimpleBridge = await ethers.getContractFactory("SimpleBridgeV2");
         const simpleBridge = await upgrades.deployProxy(SimpleBridge);
         await simpleBridge.deployed();
 
@@ -42,6 +47,12 @@ describe('SimpleBridge Contract', () => {
         let decimals = 10000000000;
         let amount = 5;
         await expect(simpleBridge.connect(depositAcc).deposit(eth_address, amount))
+            .to.emit(simpleBridge, 'DepositEvent')
+            .withArgs(depositAcc.address, eth_address, amount * decimals);
+
+
+        let uuid = "0x0000000000000000000000000000000000000000000000000000000000000002"
+        await expect(simpleBridge.connect(depositAcc).depositV2(uuid, eth_address, amount))
             .to.emit(simpleBridge, 'DepositEvent')
             .withArgs(depositAcc.address, eth_address, amount * decimals);
     });
