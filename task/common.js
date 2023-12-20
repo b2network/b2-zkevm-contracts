@@ -169,16 +169,17 @@ task("TEST:generateOfflineTx")
     .setAction(async (args, hre) => {
         const mnemonic = hre.network.config.accounts.mnemonic;
         const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
-        const wallets = await getTestWallets(hre, mnemonic, args.startIndex, args.endIndex);
+        const wallets = await getTestWallets(hre, mnemonic, parseInt(args.startIndex), parseInt(args.endIndex));
         let addrNonce = new Map;
         for (const w of wallets) {
             const nonce = await provider.getTransactionCount(w.address);
             addrNonce.set(w.address, nonce);
         }
-
+        const totalRound = parseInt(args.round);
         let results = new Array();
 
-        for (let round = 0; round < args.round; round++) {
+        for (let round = 0; round < totalRound; round++) {
+            let signTasks= new Array();
             for (const w of wallets) {
                 const nonce = addrNonce.get(w.address);
                 const params = {
@@ -188,10 +189,11 @@ task("TEST:generateOfflineTx")
                     gasLimit: 21000,
                     gasPrice: hre.ethers.utils.parseUnits("1", "gwei")
                 };
-                const tx = await w.signTransaction(params);
                 addrNonce.set(w.address, nonce + 1);
-                results.push(tx);
+                signTasks.push(w.signTransaction(params));
             };
+            const txs = await Promise.all(signTasks);
+            results = results.concat(txs);
         }
         fs.writeFileSync(path.join(".", "txs.txt"), results.join("\n"), "utf-8");
         console.log("save to txs.txt")
@@ -215,7 +217,7 @@ task("TEST:prepare")
         const minSenderBal = parseFloat(args.minSenderBalance);
         for (const item of bals) {
             const bal = parseFloat(item[1]);
-            if (bal < minSenderBal) {
+            if (bal < minSenderBal-1) {
                 await hre.run("transfer", {
                     addr: item[0],
                     value: args.minSenderBalance
@@ -248,8 +250,8 @@ task("TEST:prepare")
                 transfTasks.push(transfer(signers[i], balNotEnoughAddr[i][0], args.minBalance));
             }
             const txs = await Promise.all(transfTasks);
-            console.log("balEnoughAddr", balEnoughAddr);
-            console.log("balNotEnoughAddr", balNotEnoughAddr);
+            console.log("balEnoughAddr size", balEnoughAddr.length);
+            console.log("balNotEnoughAddr size", balNotEnoughAddr.length);
             console.log("txs", txs);
         }
     });
@@ -258,10 +260,6 @@ async function transfer(from, to, value) {
     const tx = await from.sendTransaction({
         to: to,
         value: hre.ethers.utils.parseEther(value),
-        // nonce: nonce,
-        // gasLimit: 21000,
-        // gasPrice: hre.ethers.utils.parseUnits("1", "gwei")
-
     });
     await tx.wait();
     return tx.hash;

@@ -7,7 +7,6 @@ async function main() {
     const instance = await upgrades.deployProxy(SimpleBridge);
     await instance.waitForDeployment();
     console.log("SimpleBridge V2:", instance.target);
-
 }
 
 main().catch((e) => {

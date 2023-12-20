@@ -4,6 +4,17 @@ shopt -s expand_aliases
 alias run='time npx hardhat --network '
 DATE=$(date +%Y%m%d-%H%M%S)
 
+# WORK_NET=polygonL1net polygonL2net
+# WORK_NET=polygonL1net
+# WORK_NET=polygonL2net
+# WORK_NET=b2node
+# WORK_NET=b2DevNetRollup
+WORK_NET=b2LocalRollup
+# WORK_NET=gethDev
+# WORK_NET=b2node b2rollup
+# WORK_NET=b2PublicTestRollup
+# WORK_NET=b2PublicTestNode b2PublicTestRollup
+
 init() {
     # npm i
     # npm install hardhat-function-signatures
@@ -38,22 +49,15 @@ test() {
 
 probePolygonZkEVM() {
     # exec >"$FUNCNAME.log" 2>&1
-    # npx hardhat test test/contracts/polygonZkEVM.test.js
-    # npx hardhat --help
-    # time npx hardhat --network polygonL1net scanEOAAndContract
-    # time npx hardhat --network polygonL1net debug
-    txhashs='0x765730c24d1b99ee43c89f691f93c13cf9dfeac68280b2698e9cc4e349f34848,0x6b3dce636a755a7eb74b5b76ebee5262203bad0437f805ec5e22fa692391f239'
-    npx hardhat --network polygonL1net PolygonZkEVM:parseLog \
-        --addr 0x610178dA211FEF7D417bC0e6FeD39F05609AD788 \
-        --txhash $txhashs | jq .
-    # --txhash $txhashs
-    return
-    time npx hardhat --network polygonL1net PolygonZkEVM \
-        --addr 0x610178dA211FEF7D417bC0e6FeD39F05609AD788
-    return
-    time npx hardhat --network polygonL1net findTxOfAAddr \
-        --addr 0x610178dA211FEF7D417bC0e6FeD39F05609AD788
-    # --height 10000
+    ADDR=0x67d269191c92Caf3cD7723F116c85e6E9bf55933
+    txhashs='0x4a05429c6c0a3b15cbf865db30e83866cb626c16727039eabb5851ff24fb6ddc'
+
+    # run b2node PolygonZkEVM:parseLog \
+    #     --addr $ADDR \
+    #     --txhash $txhashs | jq .
+
+    run b2node PolygonZkEVM:info \
+        --addr $ADDR
     return
 }
 
@@ -115,33 +119,30 @@ probe() {
     return
 }
 
-debug() {
-    # for net in polygonL1net polygonL2net; do
-    # for net in polygonL1net; do
-    # for net in polygonL2net; do
-    # for net in b2node; do
-    # for net in b2DevNetRollup; do
-    for net in b2LocalRollup; do
-        # for net in gethDev; do
-        # for net in b2node b2rollup; do
-        # for net in b2PublicTestRollup; do
-        # for net in b2PublicTestNode b2PublicTestRollup; do
-        # run $net transfer --addr 0x61097BA76cD906d2ba4FD106E757f7Eb455fc295 --value 1000
-        # run $net transfer --help
-        # run $net transfer --init-account-balance 90
-        # run $net showAccounts
-        # run $net getHashByHeight --heights 1
-
-        TEST_FLAG="--start-index 100 --end-index 1000"
+jmeterTest() {
+    for net in $WORK_NET; do
+        TEST_FLAG="--start-index 700 --end-index 1500"
 
         run $net TEST:prepare \
-            --min-sender-balance 100 \
+            --min-sender-balance 50 \
             --min-balance 0.2 \
             $TEST_FLAG
 
         run $net TEST:generateOfflineTx \
             --value 0.002 \
-            --round 2 $TEST_FLAG
+            --round 50 $TEST_FLAG
+
+    done
+}
+
+debug() {
+    set -e
+    for net in $WORK_NET; do
+        run $net transfer --addr 0x61097BA76cD906d2ba4FD106E757f7Eb455fc295 --value 1000
+        # run $net transfer --help
+        # run $net transfer --init-account-balance 90
+        # run $net showAccounts
+        # run $net getHashByHeight --heights 1
 
         # run $net TEST:debug
 
