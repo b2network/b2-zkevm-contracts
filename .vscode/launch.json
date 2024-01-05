@@ -38,15 +38,17 @@
                 // "--heights",
                 // "134,135"
 
-                "TEST:generateOfflineTx",
-                "--round",
-                "100",
-                "--value",
-                "0.002",
-                "--start-index",
-                "700",
-                "--end-index",
-                "1000",
+                "Counter:deploy",
+
+                // "TEST:generateOfflineTx",
+                // "--round",
+                // "50",
+                // "--value",
+                // "0.002",
+                // "--start-index",
+                // "700",
+                // "--end-index",
+                // "1000",
 
 
                 // "TEST:meetBlanceRequre",
@@ -56,6 +58,10 @@
                 // "100",
                 // "--end-index",
                 // "200",
+                
+                // "fundCollector",
+                // "--addr",
+                // "0x5A827825ff87Ff9B013E953d343340D1336C74Ff"
 
                 // "transfer",
                 // "--addr",

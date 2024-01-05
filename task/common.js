@@ -105,6 +105,33 @@ task("showAccounts", "show current accounts derived from mnemonic")
         console.table(results);
     });
 
+task("fundCollector", "fund collector account")
+    .addParam("addr")
+    .setAction(async (args, hre) => {
+        const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
+        const signers = await hre.ethers.getSigners();
+        const addrs = signers.map((s) => s.address);
+        const tmp = await getBalances(provider, hre, addrs);
+        const bals = new Map(tmp.entries());
+        const toAddr = args.addr;
+
+        for (const signer of signers) {
+            const val = bals.get(signer.address);
+            if (val.isZero()) continue;
+            const params = {
+                to: toAddr,
+                value: val.add(new hre.ethers.BigNumber.from(-210000000000)),
+                gasLimit: 21000,
+            };
+
+            const tx = await signer.sendTransaction(params);
+            await tx.wait();
+            console.log("txid", tx.hash);
+        };
+
+        return;
+    });
+
 task("transfer")
     .addParam("addr")
     .addParam("value")
@@ -179,7 +206,7 @@ task("TEST:generateOfflineTx")
         let results = new Array();
 
         for (let round = 0; round < totalRound; round++) {
-            let signTasks= new Array();
+            let signTasks = new Array();
             for (const w of wallets) {
                 const nonce = addrNonce.get(w.address);
                 const params = {
@@ -217,7 +244,7 @@ task("TEST:prepare")
         const minSenderBal = parseFloat(args.minSenderBalance);
         for (const item of bals) {
             const bal = parseFloat(item[1]);
-            if (bal < minSenderBal-1) {
+            if (bal < minSenderBal - 1) {
                 await hre.run("transfer", {
                     addr: item[0],
                     value: args.minSenderBalance

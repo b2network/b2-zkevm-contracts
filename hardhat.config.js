@@ -11,6 +11,9 @@ require('./task/common');
 require('./task/ERC20PermitMock');
 require('./task/PolygonZkEVMGlobalExitRoot');
 require('./task/PolygonZkEVMTimelock');
+require('./task/Counter');
+require('./task/GasGuzzler');
+
 // require('./docker/scripts/fund-accounts');
 
 const DEFAULT_MNEMONIC = 'test test test test test test test test test test test junk';
@@ -167,6 +170,16 @@ module.exports = {
                 count: 25,
             },
         },
+        debugB2Node: {
+            url: "http://127.0.0.1:8555",
+            chainId: 102,
+            accounts: {
+                mnemonic: "test test test test test test test test test test test junk",
+                path: "m/44'/60'/0'/0",
+                initialIndex: 0,
+                count: 25,
+            },
+        },
         b2node: {
             // url: "http://127.0.0.1:8555",
             url: "http://192.168.50.127:8545",
@@ -218,8 +231,13 @@ module.exports = {
                 count: 25,
             },
         },
+        b2PublicTestRollupMyAccount: {
+            url: 'https://zkevm-rpc.bsquared.network',
+            chainId: 1002,
+            accounts:[process.env.PRIVATE_ON_B2]
+        },
         b2PublicTestRollup: {
-            url: 'http://43.159.55.62:31481',
+            url: 'https://zkevm-rpc.bsquared.network',
             chainId: 1002,
             accounts: {
                 mnemonic: 'test test test test test test test test test test test junk',

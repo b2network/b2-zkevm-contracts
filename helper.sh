@@ -6,13 +6,15 @@ DATE=$(date +%Y%m%d-%H%M%S)
 
 # WORK_NET=polygonL1net polygonL2net
 # WORK_NET=polygonL1net
-# WORK_NET=polygonL2net
+# WORK_NET=debugB2Node
 # WORK_NET=b2node
 # WORK_NET=b2DevNetRollup
-WORK_NET=b2LocalRollup
+# WORK_NET="b2LocalRollup b2node"
+# WORK_NET="b2LocalRollup"
 # WORK_NET=gethDev
 # WORK_NET=b2node b2rollup
 # WORK_NET=b2PublicTestRollup
+WORK_NET=b2PublicTestRollupMyAccount
 # WORK_NET=b2PublicTestNode b2PublicTestRollup
 
 init() {
@@ -28,7 +30,8 @@ flatten() {
     # Proof of Efficiency
     # POE
     # PolygonZkEVM
-    # forge flatten --hardhat contracts/PolygonZkEVM.sol >tmp.sol
+    forge flatten --hardhat contracts/PolygonZkEVM.sol >tmp.sol
+    return
     # forge flatten --hardhat  >tmp.sol
 
     COMMIT=$(git rev-parse --short HEAD)
@@ -50,14 +53,13 @@ test() {
 probePolygonZkEVM() {
     # exec >"$FUNCNAME.log" 2>&1
     ADDR=0x67d269191c92Caf3cD7723F116c85e6E9bf55933
-    txhashs='0x4a05429c6c0a3b15cbf865db30e83866cb626c16727039eabb5851ff24fb6ddc'
-
-    # run b2node PolygonZkEVM:parseLog \
-    #     --addr $ADDR \
-    #     --txhash $txhashs | jq .
-
-    run b2node PolygonZkEVM:info \
-        --addr $ADDR
+    for net in $WORK_NET; do
+        # run b2node PolygonZkEVM:parseLog \
+        #     --addr $ADDR \
+        #     --txhash $txhashs | jq .
+        run $net PolygonZkEVM:info \
+            --addr $ADDR
+    done
     return
 }
 
@@ -73,7 +75,7 @@ initRollup() {
     # exec >"$FUNCNAME-$DATE.log" 2>&1
     set -e
     # repo: git@github.com:b2network/b2-node-single-client-all-data.git
-    L1NETWORK_DOCKER_COMPOSE_DIR=/root/b2-node-single-client-all-data
+    L1NETWORK_DOCKER_COMPOSE_DIR=/root/b2network/single-client-datadir
     cd $L1NETWORK_DOCKER_COMPOSE_DIR
     docker-compose down
     bash helper.sh restore
@@ -121,7 +123,7 @@ probe() {
 
 jmeterTest() {
     for net in $WORK_NET; do
-        TEST_FLAG="--start-index 700 --end-index 1500"
+        TEST_FLAG="--start-index 100 --end-index 1000"
 
         run $net TEST:prepare \
             --min-sender-balance 50 \
@@ -130,19 +132,31 @@ jmeterTest() {
 
         run $net TEST:generateOfflineTx \
             --value 0.002 \
-            --round 50 $TEST_FLAG
+            --round 100 $TEST_FLAG
 
     done
 }
 
 debug() {
     set -e
+    # cast to-wei 21000000000000000000000000
+    # cast to-hex 21000000000000000000000000000000000000000000
+    # return
     for net in $WORK_NET; do
-        run $net transfer --addr 0x61097BA76cD906d2ba4FD106E757f7Eb455fc295 --value 1000
+        # run $net transfer --addr 0x61097BA76cD906d2ba4FD106E757f7Eb455fc295 --value 1000
+        # run $net transfer --addr 0xffF2454a5396bf207C6cD77e857653205B57484a --value 0.001
+        # run $net fundCollector --addr 0x3e8010d4a49ebd72ca7063a8ad572886b3f34ba9
         # run $net transfer --help
         # run $net transfer --init-account-balance 90
+
         # run $net showAccounts
         # run $net getHashByHeight --heights 1
+
+        # run $net MyERC721:deploy
+        # run $net Counter:deploy
+        # run $net Counter:call --addr 0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44
+        # run $net GasGuzzler:deploy
+        # run $net GasGuzzler:call --addr 0xc6e7DF5E7b4f2A278906862b61205850344D4e7d
 
         # run $net TEST:debug
 
@@ -153,7 +167,7 @@ debug() {
         # run $net showContractCode --addrs $codeAddrs
 
         # npm run deployRollupContract
-        # scanEOAAndContract
+        run $net scanEOAAndContract
     done
 }
 
@@ -185,4 +199,5 @@ tmp() {
     exec >"$FUNCNAME.log" 2>&1
     npm run docker:contracts
 }
+
 $@
