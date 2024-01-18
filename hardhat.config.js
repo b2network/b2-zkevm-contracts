@@ -38,6 +38,15 @@ module.exports = {
     solidity: {
         compilers: [
             {
+                version: '0.8.20',
+                settings: {
+                    optimizer: {
+                        enabled: true,
+                        runs: 999999,
+                    },
+                },
+            },
+            {
                 version: '0.8.13',
                 settings: {
                     optimizer: {
@@ -181,8 +190,8 @@ module.exports = {
             },
         },
         b2node: {
-            // url: "http://127.0.0.1:8555",
-            url: "http://192.168.50.127:8545",
+            url: "http://127.0.0.1:8555",
+            // url: "http://192.168.50.127:8545",
             chainId: 102,
             accounts: {
                 mnemonic: "test test test test test test test test test test test junk",
@@ -193,7 +202,7 @@ module.exports = {
         },
         b2LocalRollup: {
             url: 'http://192.168.50.127:8123',
-            chainId: 1002,
+            chainId: 1102,
             accounts: {
                 mnemonic: 'test test test test test test test test test test test junk',
                 path: "m/44'/60'/0'/0",

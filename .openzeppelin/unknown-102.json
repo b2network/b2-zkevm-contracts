@@ -1,21 +1,21 @@
 {
   "manifestVersion": "3.2",
   "admin": {
-    "address": "0x58db98A429E7A9bd691e31e4b0C984b6fC3CfA39"
+    "address": "0x06033EA59D7f17edc27Ea4D147142daBc948DA16"
   },
   "proxies": [
     {
-      "address": "0xb0793Ab04a0814DFd8945B60b6080bB9B2C63E33",
+      "address": "0xECE7929aA1835513714E268AE0872fA9FcAf0FAA",
       "kind": "transparent"
     },
     {
       "address": "0x09635F643e140090A9A8Dcd712eD6285858ceBef",
-      "txHash": "0x6db4e1bc4ba28206f9c34047b2f175705df2bb5048cd87be4ced3174472eae65",
+      "txHash": "0x131ff4db2738081ddd18381904b071d42bc02856857b3d90e0cce466d4d62e74",
       "kind": "transparent"
     },
     {
       "address": "0x67d269191c92Caf3cD7723F116c85e6E9bf55933",
-      "txHash": "0x7aef6f8d3a0ad28042c51c0b58e4ee8edac348889fa6aa7a1178632301a58c27",
+      "txHash": "0x4215e1fbff2468f2fe30ab46eacd27dcae9e6448c13ffd131e1161250a85d443",
       "kind": "transparent"
     }
   ],
@@ -110,7 +110,7 @@
             "label": "globalExitRootManager",
             "offset": 5,
             "slot": "104",
-            "type": "t_contract(IBasePolygonZkEVMGlobalExitRoot)10077",
+            "type": "t_contract(IBasePolygonZkEVMGlobalExitRoot)11582",
             "contract": "PolygonZkEVMBridge",
             "src": "contracts/PolygonZkEVMBridge.sol:54"
           },
@@ -142,7 +142,7 @@
             "label": "wrappedTokenToTokenInfo",
             "offset": 0,
             "slot": "107",
-            "type": "t_mapping(t_address,t_struct(TokenInformation)8253_storage)",
+            "type": "t_mapping(t_address,t_struct(TokenInformation)9758_storage)",
             "contract": "PolygonZkEVMBridge",
             "src": "contracts/PolygonZkEVMBridge.sol:66"
           },
@@ -180,11 +180,11 @@
             "label": "bytes32",
             "numberOfBytes": "32"
           },
-          "t_contract(IBasePolygonZkEVMGlobalExitRoot)10077": {
+          "t_contract(IBasePolygonZkEVMGlobalExitRoot)11582": {
             "label": "contract IBasePolygonZkEVMGlobalExitRoot",
             "numberOfBytes": "20"
           },
-          "t_mapping(t_address,t_struct(TokenInformation)8253_storage)": {
+          "t_mapping(t_address,t_struct(TokenInformation)9758_storage)": {
             "label": "mapping(address => struct PolygonZkEVMBridge.TokenInformation)",
             "numberOfBytes": "32"
           },
@@ -196,7 +196,7 @@
             "label": "mapping(uint256 => uint256)",
             "numberOfBytes": "32"
           },
-          "t_struct(TokenInformation)8253_storage": {
+          "t_struct(TokenInformation)9758_storage": {
             "label": "struct PolygonZkEVMBridge.TokenInformation",
             "members": [
               {
@@ -230,9 +230,9 @@
         "namespaces": {}
       }
     },
-    "7a9320c5cb5e955225568f7aa4bb943bb84d6b472eab01806925870cc89aa5eb": {
+    "6c22e05082f37e1f66500055c3223056dba1ed4d8f6bf91ff1635a251907361c": {
       "address": "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F",
-      "txHash": "0xf1f2933dda7b10f63b7aa8ea495f5b27a5a9e5bf60ad8abba777f67710b088f9",
+      "txHash": "0x29ac92f8a6a14a8e3e1c01d3d988ff9c7eccb583bb30105eedccebd6a8a7cd6a",
       "layout": {
         "solcVersion": "0.8.13",
         "storage": [
@@ -278,11 +278,11 @@
         "namespaces": {}
       }
     },
-    "990ee79d4511d3f296bac7a79a3bba887a6096b3678e677a68494f35d3f1e5c2": {
+    "e0e1878f47fbb0d8e623f822e6f1e349293eba60da922e55217f9b286043857b": {
       "address": "0xc5a5C42992dECbae36851359345FE25997F5C42d",
-      "txHash": "0x1df642378a5d4285060c3f504c8ecbf6a9effa3b1f3471445135f1457d9bf346",
+      "txHash": "0x54e9dd10f5ad25e2c448b9edc16644d99d3226728556d6f59282924721e1881c",
       "layout": {
-        "solcVersion": "0.8.13",
+        "solcVersion": "0.8.20",
         "storage": [
           {
             "label": "_initialized",
@@ -385,7 +385,7 @@
             "label": "sequencedBatches",
             "offset": 0,
             "slot": "114",
-            "type": "t_mapping(t_uint64,t_struct(SequencedBatchData)5680_storage)",
+            "type": "t_mapping(t_uint64,t_struct(SequencedBatchData)7188_storage)",
             "contract": "PolygonZkEVM",
             "src": "contracts/PolygonZkEVM.sol:186"
           },
@@ -465,7 +465,7 @@
             "label": "pendingStateTransitions",
             "offset": 0,
             "slot": "120",
-            "type": "t_mapping(t_uint256,t_struct(PendingState)5689_storage)",
+            "type": "t_mapping(t_uint256,t_struct(PendingState)7198_storage)",
             "contract": "PolygonZkEVM",
             "src": "contracts/PolygonZkEVM.sol:218"
           },
@@ -559,7 +559,7 @@
             "label": "bytes32",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(PendingState)5689_storage)": {
+          "t_mapping(t_uint256,t_struct(PendingState)7198_storage)": {
             "label": "mapping(uint256 => struct PolygonZkEVM.PendingState)",
             "numberOfBytes": "32"
           },
@@ -567,7 +567,7 @@
             "label": "mapping(uint64 => bytes32)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint64,t_struct(SequencedBatchData)5680_storage)": {
+          "t_mapping(t_uint64,t_struct(SequencedBatchData)7188_storage)": {
             "label": "mapping(uint64 => struct PolygonZkEVM.SequencedBatchData)",
             "numberOfBytes": "32"
           },
@@ -575,7 +575,7 @@
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(PendingState)5689_storage": {
+          "t_struct(PendingState)7198_storage": {
             "label": "struct PolygonZkEVM.PendingState",
             "members": [
               {
@@ -605,7 +605,7 @@
             ],
             "numberOfBytes": "96"
           },
-          "t_struct(SequencedBatchData)5680_storage": {
+          "t_struct(SequencedBatchData)7188_storage": {
             "label": "struct PolygonZkEVM.SequencedBatchData",
             "members": [
               {

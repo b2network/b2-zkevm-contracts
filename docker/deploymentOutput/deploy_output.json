@@ -1,0 +1,22 @@
+{
+ "polygonZkEVMAddress": "0x67d269191c92Caf3cD7723F116c85e6E9bf55933",
+ "polygonZkEVMBridgeAddress": "0xECE7929aA1835513714E268AE0872fA9FcAf0FAA",
+ "polygonZkEVMGlobalExitRootAddress": "0x09635F643e140090A9A8Dcd712eD6285858ceBef",
+ "maticTokenAddress": "0x3Aa5ebB10DC797CAC828524e59A333d0A371443c",
+ "verifierAddress": "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1",
+ "zkEVMDeployerContract": "0x16715015B8b0E8c727b6A482358659772E65a924",
+ "deployerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+ "timelockContractAddress": "0xc3e53F4d16Ae77Db1c982e75a937B9f60FE63690",
+ "deploymentBlockNumber": 168,
+ "genesisRoot": "0xd88680f1b151dd67518f9aca85161424c0cac61df2f5424a3ddc04ea25adecc7",
+ "trustedSequencer": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+ "trustedSequencerURL": "http://rpc:8123",
+ "chainID": 1102,
+ "networkName": "b2network",
+ "admin": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+ "trustedAggregator": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+ "proxyAdminAddress": "0x06033EA59D7f17edc27Ea4D147142daBc948DA16",
+ "forkID": 6,
+ "salt": "0x0000000000000000000000000000000000000000000000000000000000000000",
+ "version": "0.1.1"
+}
