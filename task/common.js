@@ -152,6 +152,23 @@ task("transfer")
         return;
     });
 
+task("transferConcurrence")
+    .addParam("addr")
+    .addParam("concurrence")
+    .addParam("value")
+    .setAction(async (args, hre) => {
+        const con = parseInt(args.concurrence);
+        const signers = await hre.ethers.getSigners();
+        const value = hre.ethers.utils.parseEther(args.value)
+        let transfTasks = [];
+        for (let i = 0; i < con; i++) {
+            transfTasks.push(transfer(signers[i], args.addr, value));
+        }
+        const txs = await Promise.all(transfTasks);
+        console.log(txs);
+        return;
+    });
+
 task("showContractCode", "")
     .addParam("addrs")
     .setAction(async (args, hre) => {
@@ -252,7 +269,6 @@ task("TEST:prepare")
             }
 
         };
-
         const wallets = await getTestWallets(hre, mnemonic, start, end);
         const testAddrs = wallets.map((w) => w.address);
         const testAddrsBals = Array.from(await getBalances(provider, hre, testAddrs));
@@ -274,7 +290,7 @@ task("TEST:prepare")
             }
             let transfTasks = [];
             for (let i = 0; i < balNotEnoughAddr.length; i++) {
-                transfTasks.push(transfer(signers[i], balNotEnoughAddr[i][0], args.minBalance));
+                transfTasks.push(transfer(signers[i], balNotEnoughAddr[i][0], hre.ethers.utils.parseEther(args.minBalance)));
             }
             const txs = await Promise.all(transfTasks);
             console.log("balEnoughAddr size", balEnoughAddr.length);
@@ -286,7 +302,7 @@ task("TEST:prepare")
 async function transfer(from, to, value) {
     const tx = await from.sendTransaction({
         to: to,
-        value: hre.ethers.utils.parseEther(value),
+        value: value,
     });
     await tx.wait();
     return tx.hash;

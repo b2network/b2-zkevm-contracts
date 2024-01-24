@@ -10,11 +10,11 @@ DATE=$(date +%Y%m%d-%H%M%S)
 # WORK_NET=b2node
 # WORK_NET=b2DevNetRollup
 # WORK_NET="b2LocalRollup b2node"
-# WORK_NET="b2LocalRollup"
+WORK_NET="b2LocalRollup"
 # WORK_NET=gethDev
 # WORK_NET=b2node b2rollup
 # WORK_NET=b2PublicTestRollup
-WORK_NET=b2PublicTestRollupMyAccount
+# WORK_NET=b2PublicTestRollupMyAccount
 # WORK_NET=b2PublicTestNode b2PublicTestRollup
 
 init() {
@@ -122,18 +122,28 @@ probe() {
 }
 
 jmeterTest() {
+    # sleep 10m
     for net in $WORK_NET; do
-        TEST_FLAG="--start-index 100 --end-index 1000"
+        TEST_FLAG="--start-index 1 --end-index 10"
 
         run $net TEST:prepare \
             --min-sender-balance 50 \
             --min-balance 0.2 \
             $TEST_FLAG
 
-        run $net TEST:generateOfflineTx \
-            --value 0.002 \
-            --round 100 $TEST_FLAG
+        # run $net TEST:generateOfflineTx \
+        #     --value 0.002 \
+        #     --round 100 $TEST_FLAG
 
+    done
+}
+
+runLoop() {
+    for num in {1..300}; do
+        for net in $WORK_NET; do
+            run $net transfer --addr 0xffF2454a5396bf207C6cD77e857653205B57484a --value 0.001
+            sleep 1m
+        done
     done
 }
 
@@ -143,9 +153,8 @@ debug() {
     # cast to-hex 21000000000000000000000000000000000000000000
     # return
     for net in $WORK_NET; do
-        # run $net transfer --addr 0x61097BA76cD906d2ba4FD106E757f7Eb455fc295 --value 1000
-        # run $net transfer --addr 0xffF2454a5396bf207C6cD77e857653205B57484a --value 0.001
-        # run $net fundCollector --addr 0x3e8010d4a49ebd72ca7063a8ad572886b3f34ba9
+        # run $net transfer --addr 0xffF2454a5396bf207C6cD77e857653205B57484a --value 1
+        run $net transferConcurrence --concurrence 8 --addr 0xffF2454a5396bf207C6cD77e857653205B57484a --value 0.01
         # run $net transfer --help
         # run $net transfer --init-account-balance 90
 
@@ -167,7 +176,7 @@ debug() {
         # run $net showContractCode --addrs $codeAddrs
 
         # npm run deployRollupContract
-        run $net scanEOAAndContract
+        # run $net scanEOAAndContract
     done
 }
 
