@@ -189,9 +189,17 @@ module.exports = {
                 count: 25,
             },
         },
+        ethermint:{
+            url: "http://127.0.0.1:8545",
+            chainId: 102,
+            accounts: {
+                mnemonic: process.env.GENESIS_MNEMONIC,
+                initialIndex: 0,
+                count: 25,
+            },
+        },
         b2node: {
             url: "http://127.0.0.1:8555",
-            // url: "http://192.168.50.127:8545",
             chainId: 102,
             accounts: {
                 mnemonic: "test test test test test test test test test test test junk",
@@ -241,13 +249,14 @@ module.exports = {
             },
         },
         b2PublicTestRollupMyAccount: {
-            url: 'https://zkevm-rpc.bsquared.network',
-            chainId: 1002,
+            url: 'https://trusted-sequencer-rpc.bsquared.network',
+            chainId: 1102,
             accounts:[process.env.PRIVATE_ON_B2]
         },
         b2PublicTestRollup: {
-            url: 'https://zkevm-rpc.bsquared.network',
-            chainId: 1002,
+            // url: 'https://roles-rpc.bsquared.network',
+            url: 'https://trusted-sequencer-rpc.bsquared.network',
+            chainId: 1102,
             accounts: {
                 mnemonic: 'test test test test test test test test test test test junk',
                 path: "m/44'/60'/0'/0",

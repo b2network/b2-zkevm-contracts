@@ -6,7 +6,7 @@ DATE=$(date +%Y%m%d-%H%M%S)
 
 # WORK_NET=polygonL1net polygonL2net
 # WORK_NET=polygonL1net
-# WORK_NET=debugB2Node
+WORK_NET=ethermint
 # WORK_NET=b2node
 # WORK_NET=b2DevNetRollup
 # WORK_NET="b2LocalRollup b2node"
@@ -153,8 +153,11 @@ debug() {
     # cast to-hex 21000000000000000000000000000000000000000000
     # return
     for net in $WORK_NET; do
-        # run $net transfer --addr 0xffF2454a5396bf207C6cD77e857653205B57484a --value 1
         run $net transferConcurrence --concurrence 8 --addr 0xffF2454a5396bf207C6cD77e857653205B57484a --value 0.01
+        run $net transfer --addr 0xffF2454a5396bf207C6cD77e857653205B57484a --value 0.01
+        # run $net transfer --addr 0x630b71297a68069De99bC87f761b9a71a27eF32C --value 0.01
+        # run $net transfer --addr 0xffF2454a5396bf207C6cD77e857653205B57484a --value 1 --offline true
+        # run $net fundCollector --addr 0x3e8010d4a49ebd72ca7063a8ad572886b3f34ba9
         # run $net transfer --help
         # run $net transfer --init-account-balance 90
 
@@ -163,7 +166,7 @@ debug() {
 
         # run $net MyERC721:deploy
         # run $net Counter:deploy
-        # run $net Counter:call --addr 0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44
+        # run $net Counter:call --addr 0x6F251E2CaEFDA2CCc352cd42DE3a7c4D83F3ccb8
         # run $net GasGuzzler:deploy
         # run $net GasGuzzler:call --addr 0xc6e7DF5E7b4f2A278906862b61205850344D4e7d
 

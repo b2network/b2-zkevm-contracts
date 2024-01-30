@@ -135,14 +135,28 @@ task("fundCollector", "fund collector account")
 task("transfer")
     .addParam("addr")
     .addParam("value")
+    .addOptionalParam("offline", "only sign tx, not send tx")
     .setAction(async (args, hre) => {
         const provider = new hre.ethers.providers.JsonRpcProvider(hre.network.config.url);
         const [signer] = await hre.ethers.getSigners();
         const toAddr = args.addr;
-        const tx = await signer.sendTransaction({
+        const params = {
             to: toAddr,
-            value: hre.ethers.utils.parseEther(args.value)
-        });
+            value: hre.ethers.utils.parseEther(args.value),
+            gasLimit: 210000,
+            gasPrice: hre.ethers.utils.parseUnits("300", "gwei"),
+            chainId: 102,
+        };
+        if (args.offline) {
+            const wallets = await getTestWallets(hre, hre.network.config.accounts.mnemonic, 0, 1);
+            const nonce = await provider.getTransactionCount(wallets[0].address);
+            params.nonce = nonce;
+            const tx = await wallets[0].signTransaction(params);
+            console.log(tx);
+            return
+        }
+
+        const tx = await signer.sendTransaction(params);
         await tx.wait();
 
         let tmp = await getBalances(provider, hre, [signer.address, toAddr]);
