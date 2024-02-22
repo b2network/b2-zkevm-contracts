@@ -1,30 +1,30 @@
 /* eslint-disable no-await-in-loop, no-use-before-define, no-lonely-if, import/no-dynamic-require */
 /* eslint-disable no-console, no-inner-declarations, no-undef, import/no-unresolved, no-restricted-syntax */
-import {expect} from "chai";
+import { expect } from "chai";
 import path = require("path");
 import fs = require("fs");
 
 import * as dotenv from "dotenv";
-dotenv.config({path: path.resolve(__dirname, "../../.env")});
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 import yargs from "yargs/yargs";
 
 const argv = yargs(process.argv.slice(2))
     .options({
-        test: {type: "boolean", default: false},
-        input: {type: "string", default: "./deploy_parameters.json"},
-        out: {type: "string", default: "./genesis.json"},
+        test: { type: "boolean", default: false },
+        input: { type: "string", default: "./deploy_parameters.json" },
+        out: { type: "string", default: "./genesis.json" },
     })
     .parse() as any;
 
 const DEFAULT_MNEMONIC = "test test test test test test test test test test test junk";
 process.env.HARDHAT_NETWORK = "hardhat";
 process.env.MNEMONIC = argv.test ? DEFAULT_MNEMONIC : process.env.MNEMONIC;
-import {ethers, upgrades} from "hardhat";
-import {MemDB, ZkEVMDB, getPoseidon, smtUtils} from "@0xpolygonhermez/zkevm-commonjs";
+import { ethers, upgrades } from "hardhat";
+import { MemDB, ZkEVMDB, getPoseidon, smtUtils } from "@0xpolygonhermez/zkevm-commonjs";
 
-import {deployPolygonZkEVMDeployer, create2Deployment, getCreate2Address} from "../helpers/deployment-helpers";
-import {ProxyAdmin} from "../../typechain-types";
-import {Addressable} from "ethers";
+import { deployPolygonZkEVMDeployer, create2Deployment, getCreate2Address } from "../helpers/deployment-helpers";
+import { ProxyAdmin } from "../../typechain-types";
+import { Addressable } from "ethers";
 
 import "../helpers/utils";
 
@@ -119,7 +119,7 @@ async function main() {
                 throw new Error(`Missing parameter: ${parameterName}`);
             }
         }
-        ({timelockAdminAddress, minDelayTimelock, salt, initialZkEVMDeployerOwner} = deployParameters);
+        ({ timelockAdminAddress, minDelayTimelock, salt, initialZkEVMDeployerOwner } = deployParameters);
     }
 
     // Load deployer
@@ -130,7 +130,8 @@ async function main() {
     // Deploy PolygonZkEVMDeployer if is not deployed already
     const [zkEVMDeployerContract, keylessDeployer] = await deployPolygonZkEVMDeployer(
         initialZkEVMDeployerOwner,
-        deployer
+        deployer,
+        0
     );
     if (isMainnet === false) {
         finalDeployer = deployer.address;
@@ -424,12 +425,13 @@ async function main() {
 
     if (deployParameters.test) {
         // Add tester account with ether
-        genesis[genesis.length - 1].balance = "100000000000000000000000";
+        // 2100 * 10 ** 4 ether
+        genesis[genesis.length - 1].balance = BigInt(2100 * 10 ** (4 + 18)).toString();
     }
 
     // calculate root
     const poseidon = await getPoseidon();
-    const {F} = poseidon;
+    const { F } = poseidon;
     const db = new MemDB(F);
     const genesisRoot = [F.zero, F.zero, F.zero, F.zero];
     const accHashInput = [F.zero, F.zero, F.zero, F.zero];
@@ -488,5 +490,5 @@ async function getAddressInfo(address: string | Addressable) {
         storage[_IMPLEMENTATION_SLOT] = valuImplementationSlot;
     }
 
-    return {nonce, bytecode, storage};
+    return { nonce, bytecode, storage };
 }
