@@ -4,6 +4,7 @@ import "@openzeppelin/hardhat-upgrades";
 import "hardhat-dependency-compiler";
 
 import {HardhatUserConfig} from "hardhat/config";
+import "./tasks/common";
 
 const DEFAULT_MNEMONIC = "test test test test test test test test test test test junk";
 
