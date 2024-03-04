@@ -297,7 +297,7 @@ describe('Emergency mode test', () => {
             ethers.BigNumber.from(initialAggregatorMatic).add(ethers.BigNumber.from(maticAmount)),
         );
 
-        // Finally enter in emergency mode again proving distinc state
+        // Finally enter in emergency mode again proving distinct state
         const finalPendingStateNum = 1;
 
         await expect(
