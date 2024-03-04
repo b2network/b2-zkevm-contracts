@@ -1523,7 +1523,7 @@ contract PolygonZkEVM is
     /**
      * @notice Function to activate emergency state, which also enables the emergency mode on both PolygonZkEVM and PolygonZkEVMBridge contracts
      * If not called by the owner must be provided a batcnNum that does not have been aggregated in a _HALT_AGGREGATION_TIMEOUT period
-     * @param sequencedBatchNum Sequenced batch number that has not been aggreagated in _HALT_AGGREGATION_TIMEOUT
+     * @param sequencedBatchNum Sequenced batch number that has not been aggregated in _HALT_AGGREGATION_TIMEOUT
      */
     function activateEmergencyState(uint64 sequencedBatchNum) external {
         if (msg.sender != owner()) {
