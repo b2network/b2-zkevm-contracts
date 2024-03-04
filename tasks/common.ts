@@ -11,6 +11,7 @@ task("genKeystore", "")
     .addParam("aggreatorPasswd")
     .addParam("output")
     .setAction(async (args, hre) => {
+        // FIXME
         let wallet = await hre.ethers.Wallet.fromPhrase(args.mnemonic, args.sequencerPath);
         let keystore = await wallet.encrypt(args.sequencerPasswd);
         fs.writeFileSync(path.join(args.output, "sequencer.json"), keystore, "utf-8");

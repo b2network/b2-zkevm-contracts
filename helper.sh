@@ -29,14 +29,16 @@ genRollupParams() {
 }
 
 genKeystore() {
+    rm -rf keystore
     mkdir -p keystore
     runTask genKeystore \
         --mnemonic "${MNEMONIC}" \
-        --sequencer-path "m/44'/60'/0'/0/1" \
+        --sequencer-path "m/44'/60'/0'/0/6" \
         --sequencer-passwd $SEQPWD \
         --aggreator-path "m/44'/60'/0'/0/2" \
         --aggreator-passwd $AGGPWD \
         --output keystore
+        # --output ../b2-deployment/dc
 }
 
 rollupDeploy() {
@@ -58,7 +60,7 @@ fillGenesis() {
 }
 
 rollupInit() {
-    # exec >"$FUNCNAME.log" 2>&1
+    exec >"$FUNCNAME.log" 2>&1
     set -e
     genKeystore
 
