@@ -529,7 +529,7 @@ async function main() {
     expect(await upgrades.erc1967.getAdminAddress(proxyBridgeAddress)).to.be.equal(proxyAdminAddress);
 
     const outputJson = {
-        polygonRollupManagerAddress: polygonRollupManagerContract.target,
+        polygonRollupManager: polygonRollupManagerContract.target,
         polygonZkEVMBridgeAddress: polygonZkEVMBridgeContract.target,
         polygonZkEVMGlobalExitRootAddress: polygonZkEVMGlobalExitRoot?.target,
         polTokenAddress,
