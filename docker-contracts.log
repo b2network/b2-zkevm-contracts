@@ -1,0 +1,128 @@
+
+> @0xpolygonhermez/zkevm-contracts@3.0.0 docker:contracts
+> ./docker/scripts/v2/deploy-docker.sh
+
++ set -e
++ cp docker/scripts/v2/deploy_parameters_docker.json deployment/v2/deploy_parameters.json
++ cp docker/scripts/v2/create_rollup_parameters_docker.json deployment/v2/create_rollup_parameters.json
++ npm run deploy:testnet:v2:localhost
+
+> @0xpolygonhermez/zkevm-contracts@3.0.0 deploy:testnet:v2:localhost
+> npx hardhat compile && rm -f deployment/v2/deploy_ongoing.json && npm run prepare:testnet:ZkEVM:localhost && npm run deploy:v2:localhost
+
+Nothing to compile
+No need to generate any newer typings.
+
+> @0xpolygonhermez/zkevm-contracts@3.0.0 prepare:testnet:ZkEVM:localhost
+> npx hardhat run deployment/testnet/prepareTestnet.ts --network localhost
+
+#######################
+
+pol deployed to: 0x61571526129383019BA38B6EBeDca5b74fca30F6
+
+> @0xpolygonhermez/zkevm-contracts@3.0.0 deploy:v2:localhost
+> npx hardhat compile && rm -f .openzeppelin/unknown-*.json && npx ts-node deployment/v2/1_createGenesis.ts --test && npx hardhat run deployment/v2/2_deployPolygonZKEVMDeployer.ts --network localhost && npx hardhat run deployment/v2/3_deployContracts.ts --network localhost && npx hardhat run deployment/v2/4_createRollup.ts --network localhost
+
+Nothing to compile
+No need to generate any newer typings.
+Warning: Potentially unsafe deployment of contracts/PolygonZkEVMGlobalExitRootL2.sol:PolygonZkEVMGlobalExitRootL2
+
+    You are using the `unsafeAllow.state-variable-immutable` flag.
+
+Warning: Potentially unsafe deployment of contracts/PolygonZkEVMGlobalExitRootL2.sol:PolygonZkEVMGlobalExitRootL2
+
+    You are using the `unsafeAllow.constructor` flag.
+
+#######################
+
+polygonZkEVMDeployer deployed on:  0x8B3Ec915546eb6A62ad7f70116791C64f4313028
+#######################
+
+Proxy admin deployed to: 0x99befe4933A296E008D6B84fEF910BAd9a8B48B9
+#######################
+
+bridge impl deployed to: 0xc4045E091133E46eAaD3C02AB3844EdBd4026C63
+
+#######################
+##### Deployment TimelockContract  #####
+#######################
+minDelayTimelock: 3600
+timelockAdminAddress: 0xd4BdB75a2a23eFFc556b680a7b890799867FFD90
+Rollup Manager: 0x5909C30158De92b23B8EA300C9d641A027916057
+#######################
+
+Polygon timelockContract deployed to: 0x07D6E4a06204CB593766C464CfbeaB089ed68561
+
+#######################
+#####  Checks TimelockContract  #####
+#######################
+polygonZkEVM (Rollup Manager): 0x5909C30158De92b23B8EA300C9d641A027916057
+#######################
+
+PolygonZkEVMBridge deployed to: 0x2EF3147bF0E37e1D74474f1572a0aeDba049ba95
+
+#######################
+#####    Checks PolygonZkEVMBridge   #####
+#######################
+PolygonZkEVMGlobalExitRootAddress: 0x62EdA8f0FCE1dAB38cC7A2325C659Af32e879C23
+networkID: 0n
+Rollup Manager: 0x5909C30158De92b23B8EA300C9d641A027916057
+Warning: Potentially unsafe deployment of contracts/v2/PolygonZkEVMGlobalExitRootV2.sol:PolygonZkEVMGlobalExitRootV2
+
+    You are using the `unsafeAllow.state-variable-immutable` flag.
+
+Warning: Potentially unsafe deployment of contracts/v2/PolygonZkEVMGlobalExitRootV2.sol:PolygonZkEVMGlobalExitRootV2
+
+    You are using the `unsafeAllow.constructor` flag.
+
+#######################
+
+polygonZkEVMGlobalExitRoot deployed to: 0x62EdA8f0FCE1dAB38cC7A2325C659Af32e879C23
+
+#######################
+##### Deployment Rollup Manager #####
+#######################
+deployer: 0xC11a490Ab01d08d798e5303AE14997E9b44742D5
+PolygonZkEVMGlobalExitRootAddress: 0x62EdA8f0FCE1dAB38cC7A2325C659Af32e879C23
+polTokenAddress: 0x61571526129383019BA38B6EBeDca5b74fca30F6
+polygonZkEVMBridgeContract: 0x2EF3147bF0E37e1D74474f1572a0aeDba049ba95
+trustedAggregator: 0x985aE5d3d21055c9F6F1b56930AF8620C1005503
+pendingStateTimeout: 604799
+trustedAggregatorTimeout: 604799
+admin: 0xD81A4Fc737642864FE44f1B8b3AD08185a18cFeA
+timelockContract: 0xC11a490Ab01d08d798e5303AE14997E9b44742D5
+emergencyCouncilAddress: 0xc42990bdb206D1675284D98081607EcEEbb3F108
+Warning: Potentially unsafe deployment of contracts/v2/newDeployments/PolygonRollupManagerNotUpgraded.sol:PolygonRollupManagerNotUpgraded
+
+    You are using the `unsafeAllow.state-variable-immutable` flag.
+
+Warning: Potentially unsafe deployment of contracts/v2/newDeployments/PolygonRollupManagerNotUpgraded.sol:PolygonRollupManagerNotUpgraded
+
+    You are using the `unsafeAllow.constructor` flag.
+
+#######################
+
+polygonRollupManagerContract deployed to: 0x5909C30158De92b23B8EA300C9d641A027916057
+
+#######################
+#####    Checks  Rollup Manager  #####
+#######################
+PolygonZkEVMGlobalExitRootAddress: 0x62EdA8f0FCE1dAB38cC7A2325C659Af32e879C23
+polTokenAddress: 0x61571526129383019BA38B6EBeDca5b74fca30F6
+polygonZkEVMBridgeContract: 0x2EF3147bF0E37e1D74474f1572a0aeDba049ba95
+pendingStateTimeout: 604799n
+trustedAggregatorTimeout: 604799n
+#######################
+
+Verifier deployed to: 0x3Caa18D8aF55D091CccF5Dc059d1271F3B09763d
+#######################
+
+Added new Rollup Type deployed
+#######################
+
+Created new Rollup: 0x87ef183afc94C6B9bA678a0E3846a6125c7FD3e5
++ rm -rf docker/deploymentOutput
++ mkdir -p docker/deploymentOutput
++ mv deployment/v2/deploy_output.json docker/deploymentOutput
++ mv deployment/v2/genesis.json docker/deploymentOutput
++ mv deployment/v2/create_rollup_output.json docker/deploymentOutput

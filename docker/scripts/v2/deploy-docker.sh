@@ -18,6 +18,8 @@ npm run deploy:testnet:v2:localhost
 # # exit 1
 # npx hardhat run deployment/v2/4_createRollup.ts --network localhost
 
+rm -rf docker/deploymentOutput
+mkdir -p docker/deploymentOutput
 mv deployment/v2/deploy_output.json docker/deploymentOutput
 mv deployment/v2/genesis.json docker/deploymentOutput
 mv deployment/v2/create_rollup_output.json docker/deploymentOutput
