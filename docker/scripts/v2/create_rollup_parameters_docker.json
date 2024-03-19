@@ -4,7 +4,7 @@
     "networkName": "b2",
     "description": "0.5.0",
     "trustedSequencer": "0xDB4aCCCc98DEe076C92a986D4aAdaa19fC029C90",
-    "chainID": 1104,
+    "chainID": 1123,
     "adminZkEVM": "0x0eDcC19BaCA33F7DEC3C51FF0eF5b414b923e9CB",
     "forkID": 8,
     "consensusContract": "PolygonZkEVMEtrog",
