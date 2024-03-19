@@ -72,7 +72,8 @@ async function main() {
     // Deploy PolygonZkEVMDeployer if is not deployed already using keyless deployment
     const [zkEVMDeployerContract, keylessDeployer] = await deployPolygonZkEVMDeployer(
         initialZkEVMDeployerOwner,
-        deployer as HardhatEthersSigner
+        deployer as HardhatEthersSigner,
+        1113
     );
 
     if (keylessDeployer === ethers.ZeroAddress) {

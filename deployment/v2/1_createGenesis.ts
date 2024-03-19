@@ -130,7 +130,8 @@ async function main() {
     // Deploy PolygonZkEVMDeployer if is not deployed already
     const [zkEVMDeployerContract, keylessDeployer] = await deployPolygonZkEVMDeployer(
         initialZkEVMDeployerOwner,
-        deployer
+        deployer,
+        0
     );
     if (isMainnet === false) {
         finalDeployer = deployer.address;

@@ -24,7 +24,8 @@ import {string} from "yargs";
 
 export async function deployPolygonZkEVMDeployer(
     deployerAddress: string,
-    signer: HardhatEthersSigner
+    signer: HardhatEthersSigner,
+    chainId: number
 ): Promise<[PolygonZkEVMDeployer, string]> {
     const PolgonZKEVMDeployerFactory = await ethers.getContractFactory("PolygonZkEVMDeployer", signer);
 
@@ -38,7 +39,7 @@ export async function deployPolygonZkEVMDeployer(
         r: "0x5ca1ab1e0", // Equals 0x00000000000000000000000000000000000000000000000000000005ca1ab1e0
         s: "0x5ca1ab1e", // Equals 0x000000000000000000000000000000000000000000000000000000005ca1ab1e
     };
-    const tx = ethers.Transaction.from({
+    let txParams = {
         to: null, // bc deployment transaction, "to" is "0x"
         nonce: 0,
         value: 0,
@@ -47,8 +48,9 @@ export async function deployPolygonZkEVMDeployer(
         data: deployTxZKEVMDeployer,
         type: 0, // legacy transaction
         signature,
-    });
-
+    };
+    let tx = ethers.Transaction.from(txParams);
+    if (chainId != 0) {tx.chainId = chainId};
     const totalEther = gasLimit * gasPrice; // 0.1 ether
     const signerProvider = signer.provider as HardhatEthersProvider;
     // Check if it's already deployed
